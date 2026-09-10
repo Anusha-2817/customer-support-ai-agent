@@ -1,0 +1,16 @@
+{
+  "created": "2026-09-11T01:16:33",
+  "role": "judge",
+  "judge": "ollama:llama3.2:3b",
+  "n_items": 80,
+  "seconds": 1081.5,
+  "valid": 79,
+  "mode": "local",
+  "profile": "local",
+  "models": {
+    "judge": {
+      "spec": "ollama:llama3.2:3b",
+      "available": true
+    }
+  }
+}

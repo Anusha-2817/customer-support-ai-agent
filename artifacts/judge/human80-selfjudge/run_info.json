@@ -1,0 +1,16 @@
+{
+  "created": "2026-09-11T01:30:06",
+  "role": "generator",
+  "judge": "ollama:qwen2.5:3b",
+  "n_items": 80,
+  "seconds": 812.0,
+  "valid": 80,
+  "mode": "local",
+  "profile": "local",
+  "models": {
+    "generator": {
+      "spec": "ollama:qwen2.5:3b",
+      "available": true
+    }
+  }
+}

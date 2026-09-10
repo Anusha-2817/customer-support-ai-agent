@@ -93,7 +93,15 @@ def t_offline_computes_nothing():
     n = len(ATTEMPTS)
     expect_raises(llm.CacheMiss, lambda: llm.chat("generator", MSGS))
     expect_raises(llm.CacheMiss, lambda: llm.embed(["a text nobody has embedded 7f3a"]))
+    # Offline, a role is available exactly when the cache holds responses from its model.
     ok, why = llm.llm_available("judge")
+    assert ok == any(r.get("spec") == llm.spec_for("judge") for r in llm._load_chat().values()), (ok, why)
+    real_spec_for = llm.spec_for
+    llm.spec_for = lambda role: "ollama:never-cached-model:0b"
+    try:
+        ok, why = llm.llm_available("judge")
+    finally:
+        llm.spec_for = real_spec_for
     assert not ok and "offline" in why, why
     assert len(ATTEMPTS) == n, f"offline mode opened connections: {ATTEMPTS[n:]}"
     llm.set_mode("local")
