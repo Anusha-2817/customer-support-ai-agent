@@ -1,0 +1,6 @@
+# raw dataset is 516 MB - regenerate with src/prepare.py (see README)
+data/raw/
+__pycache__/
+*.pyc
+.venv/
+.env

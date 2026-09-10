@@ -1,0 +1,4 @@
+# Core: offline replay (--offline) and all non-model code. Python >= 3.11
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.9.0

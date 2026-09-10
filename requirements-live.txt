@@ -1,0 +1,3 @@
+-r requirements.txt
+# Optional paid provider, used only with --live.
+openai==2.44.0

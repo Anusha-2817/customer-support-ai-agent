@@ -1,0 +1,6 @@
+-r requirements.txt
+# Free local models (--local, the default). CPU is enough.
+# On Linux, add --index-url https://download.pytorch.org/whl/cpu to avoid the large CUDA build.
+sentence-transformers==6.0.1
+torch==2.14.0
+# LLM roles run in Ollama (https://ollama.com), installed separately: see README.
