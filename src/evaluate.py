@@ -3,12 +3,15 @@
     python src/evaluate.py --run artifacts/predictions/<run>
     python src/evaluate.py --run <dir> --labels <file> --smoke      # tests: mock labels / mock models
 
-Subsets, in order of importance:
-- headline: the 130 uniform cases. Every headline number comes from here.
-- targeted: the 70 enrichment cases, reported separately. Mixing them into headline rates
-  without reweighting would distort every rate.
-- sensitivity: uniform cases the labeller had NOT seen in the practice round. A check on the
-  headline, never a replacement for it.
+Subsets, each written to its own file as well as to the combined results.md / results.json:
+- headline (results_headline_uniform.*): the 130 uniform cases. Every headline number comes
+  from here.
+- targeted (results_targeted.*): the 70 enrichment cases, reported separately. Mixing them
+  into headline rates without reweighting would distort every rate.
+- sensitivity (results_sensitivity_unexposed.*): uniform cases the labeller had NOT seen in
+  the practice round. A check on the headline, never a replacement for it.
+- secondary (results_practice_vs_final.*): the labeller's practice-round judgements vs their
+  final labels, on the 57 practice-exposed cases.
 Only labelled cases are scored; each subset reports how many that was.
 
 Per system and subset: intent accuracy, macro-F1, per-intent P/R/F1 and the confusion matrix;
@@ -21,13 +24,11 @@ outputs. Headline rates carry 95% bootstrap intervals, and the agent is compared
 and its reply-gated variant by paired bootstrap.
 
 A+gate uses the reply checks as its gate, so its auto-sent replies pass them by construction;
-results.md says so, and judge or human scores are the independent measure of its replies.
+the results say so, and judge or human scores are the independent measure of its replies.
 
-Secondary analysis: agreement between the labeller's practice-round escalation decisions
-and their final labels, on the practice-exposed cases.
-
-Refuses to report predictions from a mock model unless --smoke is given, and marks the
-output as a smoke test when it is.
+Labels are read here, for scoring only. Generation never opens them (scripts/run_fenced.py).
+Refuses to report predictions from a mock model unless --smoke is given, and marks the output
+as a smoke test when it is.
 """
 from __future__ import annotations
 
@@ -35,6 +36,7 @@ import argparse
 import json
 import sys
 import time
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -52,6 +54,10 @@ PREFILL = GOLD / "prefill_from_practice.jsonl"
 MAX_RISK = 0.05
 COMPARE = [("A", "B1"), ("A", "B0-auto-all"), ("A+gate", "A")]
 SIGNALS = ["tfidf_support", "retrieval_top_score", "intent_confidence", "consistency"]
+SUBSETS = {"headline_uniform": ("results_headline_uniform", "Headline: 130 uniform cases"),
+           "targeted": ("results_targeted", "Targeted 70 (reported separately, not part of the headline)"),
+           "sensitivity_uniform_unexposed": ("results_sensitivity_unexposed",
+                                             "Sensitivity: uniform cases not seen in the practice round")}
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -134,16 +140,19 @@ def compare(ids: list[str], a: dict[str, dict], b: dict[str, dict], labels: dict
 
 
 def practice_agreement(labels: dict[str, dict], prefill: list[dict]) -> dict:
-    """Secondary: the labeller's practice escalation decision vs their final label, on the
-    practice-exposed cases that had a pre-set escalation."""
+    """Secondary: the labeller's practice-round judgements vs their final labels, on the
+    practice-exposed cases."""
     pairs = [(bool(p["escalate"]), bool(labels[str(p["case_id"])]["escalate"])) for p in prefill
              if p.get("escalate") is not None and str(p["case_id"]) in labels]
-    changed = [r for r in labels.values() if r.get("prefilled_from_practice")]
-    return {"n": len(pairs),
+    saved = [r for r in labels.values() if r.get("prefilled_from_practice")]
+    changed_fields = Counter(f for r in saved for f in (r.get("changed_from_prefill") or []))
+    preset_fields = Counter(f for r in saved for f in (r.get("prefill_fields") or []))
+    return {"n_with_preset_escalation": len(pairs),
             "escalation_agreement": M._r(M.rate(sum(a == b for a, b in pairs), len(pairs))),
             "escalation_kappa": M.kappa([a for a, _ in pairs], [b for _, b in pairs]) if pairs else None,
-            "prefilled_labels_saved": len(changed),
-            "changed_any_prefilled_field": sum(bool(r.get("changed_from_prefill")) for r in changed)}
+            "prefilled_labels_saved": len(saved),
+            "changed_any_prefilled_field": sum(bool(r.get("changed_from_prefill")) for r in saved),
+            "per_field": {f: {"pre_set": preset_fields[f], "changed": changed_fields[f]} for f in sorted(preset_fields)}}
 
 
 def evaluate(run_dir: Path, labels_path: Path = DEFAULT_LABELS, cases_path: Path = CASES,
@@ -173,9 +182,26 @@ def evaluate(run_dir: Path, labels_path: Path = DEFAULT_LABELS, cases_path: Path
     }
     if prefill_path is not None and prefill_path.exists():
         results["secondary_practice_vs_final"] = practice_agreement(labels, read_jsonl(prefill_path))
+    write_outputs(run_dir, results)
+    return results
+
+
+def write_outputs(run_dir: Path, results: dict) -> None:
+    """Combined results plus one file per subset, so each analysis can be read on its own."""
+    meta = {k: results[k] for k in ("smoke_test", "created", "labels_file", "labelled", "run_info")}
     (run_dir / "results.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
     (run_dir / "results.md").write_text(to_markdown(results), encoding="utf-8")
-    return results
+    for key, (stem, _) in SUBSETS.items():
+        part = {**meta, "subset": key, "systems": {s: v[key] for s, v in results["systems"].items()}}
+        if key == "headline_uniform":
+            part["comparisons_headline"] = results["comparisons_headline"]
+        (run_dir / f"{stem}.json").write_text(json.dumps(part, indent=2), encoding="utf-8")
+        (run_dir / f"{stem}.md").write_text(to_markdown(results, only=key), encoding="utf-8")
+    if "secondary_practice_vs_final" in results:
+        (run_dir / "results_practice_vs_final.json").write_text(
+            json.dumps({**meta, "secondary_practice_vs_final": results["secondary_practice_vs_final"]}, indent=2),
+            encoding="utf-8")
+        (run_dir / "results_practice_vs_final.md").write_text(to_markdown(results, only="practice"), encoding="utf-8")
 
 
 def _fmt(e: dict | None) -> str:
@@ -185,19 +211,20 @@ def _fmt(e: dict | None) -> str:
     return f"{e['value']:.2f} [{ci[0]:.2f}, {ci[1]:.2f}]" if ci else f"{e['value']:.2f}"
 
 
-def to_markdown(r: dict) -> str:
-    L = ["# Evaluation results", ""]
+def to_markdown(r: dict, only: str | None = None) -> str:
+    """The combined report, or a single section (a subset key, or "practice")."""
+    L = ["# Evaluation results" + (f": {SUBSETS[only][1]}" if only in SUBSETS else
+                                   ": practice round vs final labels" if only == "practice" else ""), ""]
     if r["smoke_test"]:
         L += ["> **SMOKE TEST**: mock labels and/or mock model output. These numbers mean nothing.", ""]
     info = r.get("run_info") or {}
-    L += [f"Labels: `{r['labelled']}` labelled cases per subset (file `{r['labels_file']}`)",
+    L += [f"Labelled cases per subset: {r['labelled']} (labels read for scoring only)",
           f"Run: git `{info.get('git_commit')}`, mode `{info.get('mode')}`, models "
           f"{ {k: v['spec'] for k, v in (info.get('models') or {}).items()} }", ""]
-    titles = {"headline_uniform": "Headline: 130 uniform cases",
-              "targeted": "Targeted 70 (reported separately, not part of the headline)",
-              "sensitivity_uniform_unexposed": "Sensitivity: uniform cases not seen in the practice round"}
     gated = [s for s in r["systems"] if s.endswith("+gate")]
-    for key, title in titles.items():
+    for key, (_, title) in SUBSETS.items():
+        if only not in (None, key):
+            continue
         L += [f"## {title}", "", "| System | n | Intent acc | Macro-F1 | Must-escalate recall | Unsafe auto-send | "
               "Coverage | Auto-sent replies passing checks | Valid outputs |", "|---|---|---|---|---|---|---|---|---|"]
         for s, subs in r["systems"].items():
@@ -213,20 +240,30 @@ def to_markdown(r: dict) -> str:
             L.append(f"\n*{', '.join(gated)} uses the reply checks as its gate, so its auto-sent replies pass them by "
                      "construction. Judge or human scores are the independent measure of its replies.*")
         L.append("")
-    L += ["## Best operating point under the 5% unsafe-auto bar (headline)", "",
-          "| System | Risk signal | Threshold | Coverage | Unsafe auto-send |", "|---|---|---|---|---|"]
-    for s, subs in r["systems"].items():
-        x = subs["headline_uniform"]
-        for sig, c in (x.get("risk_coverage") or {}).items():
-            b = c["best_under_bar"]
-            L.append(f"| {s} | {sig} | {b['threshold']} | {b['coverage']} | {b['unsafe_auto_rate']} |")
-    L += ["", "## Paired comparisons (headline; difference = first minus second)", ""]
-    for k, c in r["comparisons_headline"].items():
-        L.append(f"- **{k}** (n={c['n']}): " + "; ".join(
-            f"{m} {v['difference']:+.2f} [{v['ci95'][0]:+.2f}, {v['ci95'][1]:+.2f}]" if v and v.get("ci95") else f"{m} n/a"
-            for m, v in c.items() if m != "n"))
-    if "secondary_practice_vs_final" in r:
-        L += ["", "## Secondary: practice round vs final labels", "", f"{r['secondary_practice_vs_final']}"]
+    if only in (None, "headline_uniform"):
+        L += ["## Best operating point under the 5% unsafe-auto bar (headline)", "",
+              "| System | Risk signal | Threshold | Coverage | Unsafe auto-send |", "|---|---|---|---|---|"]
+        for s, subs in r["systems"].items():
+            x = subs["headline_uniform"]
+            for sig, c in (x.get("risk_coverage") or {}).items():
+                b = c["best_under_bar"]
+                L.append(f"| {s} | {sig} | {b['threshold']} | {b['coverage']} | {b['unsafe_auto_rate']} |")
+        L += ["", "## Paired comparisons (headline; difference = first minus second)", ""]
+        for k, c in r["comparisons_headline"].items():
+            L.append(f"- **{k}** (n={c['n']}): " + "; ".join(
+                f"{m} {v['difference']:+.2f} [{v['ci95'][0]:+.2f}, {v['ci95'][1]:+.2f}]" if v and v.get("ci95") else f"{m} n/a"
+                for m, v in c.items() if m != "n"))
+        L.append("")
+    if only in (None, "practice") and "secondary_practice_vs_final" in r:
+        p = r["secondary_practice_vs_final"]
+        L += ["## Secondary: practice round vs final labels (57 practice-exposed cases)", "",
+              f"- Final labels saved from a practice pre-set: {p['prefilled_labels_saved']}; "
+              f"changed at least one pre-set field: {p['changed_any_prefilled_field']}",
+              f"- Escalation decision, practice vs final: agreement {p['escalation_agreement']}, "
+              f"kappa {p['escalation_kappa']} (n={p['n_with_preset_escalation']})", "",
+              "| Pre-set field | Pre-set on | Changed on review |", "|---|---|---|"]
+        L += [f"| {f} | {v['pre_set']} | {v['changed']} |" for f, v in p["per_field"].items()]
+        L.append("")
     return "\n".join(L) + "\n"
 
 
@@ -239,7 +276,7 @@ def main() -> None:
     ap.add_argument("--bootstrap", type=int, default=1000)
     a = ap.parse_args()
     r = evaluate(a.run, a.labels, smoke=a.smoke, B=a.bootstrap)
-    print(f"wrote {a.run / 'results.md'} | labelled: {r['labelled']}")
+    print(f"wrote {a.run / 'results.md'} and per-subset files | labelled: {r['labelled']}")
 
 
 if __name__ == "__main__":

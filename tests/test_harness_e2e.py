@@ -102,6 +102,7 @@ try:
                                 "reason": (hits[0]["reason"] if hits else "unclear_request") if esc else None,
                                 "ba_reply_ok": "yes", "prior_exposure_to_ba_reply": c["case_id"] in exposed,
                                 "prefilled_from_practice": c["case_id"] in exposed,
+                                "prefill_fields": ["escalate", "ba_reply_ok"] if c["case_id"] in exposed else [],
                                 "changed_from_prefill": ["escalate"] if c["case_id"] in exposed and rng.random() < .2 else []}) + "\n")
     prefill_path = tmp / "synthetic_prefill.jsonl"
     with open(prefill_path, "w", encoding="utf-8") as f:
@@ -149,10 +150,18 @@ try:
     rc = {s: hl[s]["reply_checks"]["all_replies"] for s in hl}
     check(rc["B1"]["fabricated"] > 0, f"verbatim B1 replies carry invented specifics ({rc['B1']['fabricated']:.0%})")
     check(set(res["comparisons_headline"]) == {"A vs B1", "A vs B0-auto-all", "A+gate vs A"}, "paired comparisons on the headline set")
-    check(res["secondary_practice_vs_final"]["n"] == 57, "practice-vs-final agreement reported as a secondary analysis")
+    sec = res["secondary_practice_vs_final"]
+    check(sec["n_with_preset_escalation"] == 57 and sec["prefilled_labels_saved"] == 57 and "escalate" in sec["per_field"],
+          "practice-vs-final agreement reported as a secondary analysis, with per-field change counts")
     md = (run_dir / "results.md").read_text(encoding="utf-8")
     check(md.startswith("# Evaluation results") and "SMOKE TEST" in md and "Headline: 130 uniform" in md
           and "by construction" in md, "results.md: smoke banner, headline first, and the gate's by-construction caveat")
+    separate = {"results_headline_uniform": "Headline: 130 uniform", "results_targeted": "Targeted 70",
+                "results_sensitivity_unexposed": "Sensitivity", "results_practice_vs_final": "practice round vs final"}
+    check(all((run_dir / f"{s}.md").exists() and (run_dir / f"{s}.json").exists() for s in separate)
+          and all(t in (run_dir / f"{s}.md").read_text(encoding="utf-8") for s, t in separate.items())
+          and "Targeted 70" not in (run_dir / "results_headline_uniform.md").read_text(encoding="utf-8"),
+          "headline, targeted, sensitivity and practice-vs-final are also written as four separate outputs")
     view = render(run_dir, "A+gate")
     check("=== A+gate" in view and "drafts fail the reply checks" in view, "inspect_run renders a run for review")
 
