@@ -138,3 +138,17 @@ The final report keeps the 10–15 most consequential. Format: **decision**, the
     cases in the golden set from 8 to 42, because must-escalate recall is the headline safety
     metric and needs positive cases to measure. The triggers are deliberately separate from the
     agent's guard rules, and headline numbers come from the uniform 130 only.
+
+## Golden set
+
+20. **Reuse the practice-round judgements as reviewed pre-sets, and disclose the exposure.** The
+    practice labeller ran on the real uniform sample, so the labeller saw 57 golden cases, with BA's
+    replies, before real labelling; practice material should have come from outside the golden set.
+    Of three options (label everything fresh, reuse, or swap in unseen cases), the labeller chose to
+    reuse. The latest practice save per case (63 saves over 57 cases; 6 were revisits) pre-sets the
+    escalation decision, reason, BA rating and note. The intent is suggested only where the placeholder
+    category maps cleanly (45 cases) and left blank otherwise (12). The 4 cases saved before the
+    urgent-booking rule are judged fresh. Nothing is saved until the labeller reviews the case, and the
+    server records on every saved label whether it was pre-set, that BA's reply had been seen, and which
+    pre-set fields changed. The 130 uniform cases remain the headline set and the 130/70 split is
+    unchanged; practice-vs-final agreement is reported only as a secondary analysis.

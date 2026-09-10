@@ -163,6 +163,11 @@ B0 and B1 need no LLM at all; the A rows need the `generator` role.
 - Protocol: guidelines written first; **blind** (no model output shown); BA's real reply is revealed
   only after intent and escalation are set; fixed random order;
   30 items re-labelled at least 24 h later → intra-annotator κ. Optional second labeller on 40 → inter-annotator κ.
+- **Practice exposure (disclosed).** 57 of the 130 uniform cases were seen, with BA's replies, in a
+  practice round. They are pre-set from the labeller's latest practice judgements (escalation, reason,
+  BA rating; intent only where it mapped cleanly) and reviewed case by case; 4 from before the
+  urgent-booking rule are judged fresh. Headline metrics stay on the uniform 130 and the 130/70 split is
+  unchanged; practice-vs-final agreement is a secondary analysis only (decision log #20).
 
 ---
 
@@ -262,6 +267,8 @@ Limitations, stated rather than hidden:
 
 ## 8. "What is misleading about my headline number": candidates (report)
 - The taxonomy designer is also the golden-set labeller → optimistic intent accuracy; single annotator.
+- 57 of the 130 headline cases were first judged in a practice round with BA's reply visible, then
+  reviewed from pre-set values: less blind than the protocol intended.
 - BA's historical reply isn't ground truth, and there is no outcome data, so every reply metric is a proxy.
 - "Sendable" ≠ "resolved": most good replies still hand off to DMs.
 - The judge is a small local model, not the planned GPT-class judge; its agreement with the human

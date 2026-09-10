@@ -14,6 +14,12 @@ Choices here that affect label quality:
 - Fixed seeded order, so labelling fatigue doesn't line up with any data property.
 - Each label is appended to disk as soon as it's saved: crash-safe and resumable.
   Editing an earlier item appends a new record; the last record per case wins.
+
+Practice pre-sets (round 1 only, decision log #20): cases the labeller already judged in
+the practice round arrive with their practice values pre-set for review. The server, not
+the page, records the provenance of every saved label: whether it was pre-set, whether
+the labeller had already seen BA's reply, and which pre-set fields were changed. Pre-sets
+are never applied to a re-label round, which must stay blind.
 """
 from __future__ import annotations
 
@@ -32,6 +38,7 @@ HTML = Path(__file__).resolve().parent / "label.html"
 REASONS = ROOT / "config" / "escalation_reasons.json"
 VISIBLE = ("case_id", "context", "customer_msg", "brand_reply")
 BA_OK = {"yes", "no", "unsure"}
+PREFILL_FIELDS = ("intent", "escalate", "reason", "ba_reply_ok", "note")
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -56,9 +63,21 @@ def validate(rec: dict, taxonomy: dict) -> str | None:
     return None
 
 
-def make_handler(items: list[dict], taxonomy: dict, out: Path, practice: bool = False):
+def provenance(rec: dict, pre: dict | None) -> dict:
+    """How a saved label relates to its practice pre-set, if it had one."""
+    if pre is None:
+        return {"prefilled_from_practice": False, "prior_exposure_to_ba_reply": False}
+    preset = [f for f in PREFILL_FIELDS if pre.get(f) not in (None, "")]
+    return {"prefilled_from_practice": True, "prior_exposure_to_ba_reply": True,
+            "prefill_fields": preset,
+            "changed_from_prefill": [f for f in preset if rec.get(f) != pre[f]]}
+
+
+def make_handler(items: list[dict], taxonomy: dict, out: Path, practice: bool = False,
+                 prefill: dict[str, dict] | None = None):
     lock = threading.Lock()
     ids = {str(it["case_id"]) for it in items}
+    prefill = prefill or {}
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):  # keep the console quiet
@@ -79,7 +98,7 @@ def make_handler(items: list[dict], taxonomy: dict, out: Path, practice: bool = 
                 labels = {str(r["case_id"]): r for r in read_jsonl(out)}  # last wins
                 return self._send(200, {"taxonomy": taxonomy, "items": items,
                                         "labels": labels, "out": out.name,
-                                        "practice": practice})
+                                        "practice": practice, "prefill": prefill})
             self._send(404, {"error": "not found"})
 
         def do_POST(self):
@@ -93,6 +112,7 @@ def make_handler(items: list[dict], taxonomy: dict, out: Path, practice: bool = 
                 return self._send(400, {"error": err})
             if not rec["escalate"]:
                 rec["reason"] = None
+            rec.update(provenance(rec, prefill.get(str(rec["case_id"]))))
             rec["ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
             with lock:
                 out.parent.mkdir(parents=True, exist_ok=True)
@@ -114,6 +134,9 @@ def main() -> None:
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--practice", action="store_true",
                     help="show a practice banner; pair with a scratch --out")
+    ap.add_argument("--prefill", type=Path, default=GOLD / "prefill_from_practice.jsonl",
+                    help="practice pre-sets to review (round 1 only)")
+    ap.add_argument("--no-prefill", action="store_true", help="ignore practice pre-sets")
     a = ap.parse_args()
 
     if not a.taxonomy.exists():
@@ -132,9 +155,15 @@ def main() -> None:
 
     if a.practice and a.out.resolve().parent == GOLD.resolve():
         sys.exit("--practice must not write into data/golden/ - pass a scratch --out")
-    print(f"{len(items)} items | labels -> {a.out}" + ("  [PRACTICE]" if a.practice else ""))
+    prefill: dict[str, dict] = {}
+    if not (a.no_prefill or a.only_ids or a.practice) and a.prefill.exists():
+        present = {it["case_id"] for it in items}
+        prefill = {str(r["case_id"]): r for r in read_jsonl(a.prefill) if str(r["case_id"]) in present}
+    print(f"{len(items)} items | labels -> {a.out}" + ("  [PRACTICE]" if a.practice else "")
+          + (f" | {len(prefill)} pre-set from practice for review" if prefill else ""))
     print(f"open http://localhost:{a.port}   (Ctrl+C to stop; progress is saved)")
-    ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(items, taxonomy, a.out, a.practice)).serve_forever()
+    ThreadingHTTPServer(("127.0.0.1", a.port),
+                        make_handler(items, taxonomy, a.out, a.practice, prefill)).serve_forever()
 
 
 if __name__ == "__main__":

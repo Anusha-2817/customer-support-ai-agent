@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <title>Golden set labeller</title>
 <style>
-  :root { --ink:#1f2328; --muted:#636c76; --line:#d0d7de; --bg:#f6f8fa; --accent:#1f4fb8; --warn:#b3261e; }
+  :root { --ink:#1f2328; --muted:#636c76; --line:#d0d7de; --bg:#f6f8fa; --accent:#1f4fb8; --warn:#b3261e; --pre:#d99a1a; }
   * { box-sizing:border-box; }
   body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
   header { display:flex; gap:18px; align-items:center; padding:10px 22px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:2; }
@@ -20,6 +20,7 @@
   .opt:hover { border-color:#8c959f; }
   .opt.on { background:var(--accent); color:#fff; border-color:var(--accent); }
   .opt.on .def { color:#dbe4ff; }
+  .opt.pre { box-shadow:0 0 0 2px var(--pre); }
   .opt .def { display:block; font-size:12px; color:var(--muted); }
   kbd { font:11px ui-monospace,monospace; border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:0 5px; background:#f6f8fa; color:var(--ink); flex:none; margin-top:2px; }
   .row { display:flex; gap:8px; } .row .opt { flex:1; }
@@ -32,7 +33,9 @@
   #err { color:var(--warn); font-size:13px; }
   .muted { color:var(--muted); font-size:13px; }
   .done { max-width:640px; margin:80px auto; text-align:center; }
-  #mode { background:#fff4ce; color:#6b4e00; border-bottom:1px solid #e8d48a; padding:8px 22px; font-size:14px; font-weight:600; }
+  #mode, #pre { background:#fff4ce; color:#6b4e00; border-bottom:1px solid #e8d48a; padding:8px 22px; font-size:14px; }
+  #mode { font-weight:600; }
+  #pre b { font-weight:600; }
   code { font:13px ui-monospace,monospace; background:#eaeef2; padding:1px 5px; border-radius:4px; }
   @media (max-width: 900px) {
     main { grid-template-columns:1fr; padding:14px; }
@@ -48,6 +51,7 @@
   <span id="timer" class="muted"></span>
 </header>
 <div id="mode" hidden></div>
+<div id="pre" hidden></div>
 
 <main id="app">
   <section>
@@ -87,7 +91,7 @@
 
 <script>
 const INTENT_KEYS = "1234567890-=".split("");
-let S = null, idx = 0, cur = null, t0 = 0, saving = false;
+let S = null, idx = 0, cur = null, t0 = 0, saving = false, preset = null;
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -131,17 +135,36 @@ function buildStatic() {
   $("save").onclick = save; $("prev").onclick = () => go(idx-1); $("next").onclick = () => go(idx+1);
 }
 
+// Practice pre-sets (decision log #20): the labeller's own practice judgements, shown for
+// review. Nothing is saved until Enter; the server records what was pre-set and changed.
+function preBanner(pf, saved) {
+  if (!pf) return "";
+  if (saved) return "<b>Practice-exposed case</b> (already saved; showing your saved label).";
+  let s = "<b>Pre-set from your practice round.</b> You have already seen BA's reply for this case. Check every field before saving.";
+  s += pf.intent
+    ? ` Intent suggested from your practice category <code>${esc(pf.practice_intent)}</code>.`
+    : ` Intent left blank: your practice category <code>${esc(pf.practice_intent)}</code> has no clean match, so pick fresh.`;
+  if (pf.rejudge_escalation) s += " Escalation and BA rating left blank: this case was labelled before the urgent-booking rule, so judge them fresh.";
+  return s;
+}
+
 function render() {
   const n = S.items.length, done = Object.keys(S.labels).length;
   $("count").textContent = `${done} / ${n} labelled · item ${Math.min(idx+1, n)} · saving to ${S.out}`;
   $("fill").style.width = (100*done/n) + "%";
   if (idx >= n) {
+    $("pre").hidden = true;
     $("app").innerHTML = `<div class="done card"><h2>All ${n} items labelled</h2><p class="muted">Labels are in data/golden/${esc(S.out)}. Reload to revisit any item.</p></div>`;
     cur = null; return;
   }
   const it = S.items[idx];
   const prev = S.labels[it.case_id];
-  cur = prev ? { intent:prev.intent, escalate:prev.escalate, reason:prev.reason, ba_reply_ok:prev.ba_reply_ok, ambiguous:!!prev.ambiguous, note:prev.note||"" } : blank();
+  const pf = (S.prefill || {})[it.case_id] || null;
+  preset = prev ? null : pf;
+  if (prev) cur = { intent:prev.intent, escalate:prev.escalate, reason:prev.reason, ba_reply_ok:prev.ba_reply_ok, ambiguous:!!prev.ambiguous, note:prev.note||"" };
+  else if (pf) cur = { intent:pf.intent, escalate:pf.escalate, reason:pf.reason, ba_reply_ok:pf.ba_reply_ok, ambiguous:false, note:pf.note||"" };
+  else cur = blank();
+  $("pre").hidden = !pf; $("pre").innerHTML = preBanner(pf, !!prev);
   t0 = Date.now();
   $("ctxCard").hidden = !it.context.length;
   $("ctx").innerHTML = it.context.map(t => `<div class="turn ${t.role}"><small>${t.role === "brand" ? "British Airways" : "Customer"}</small>${esc(t.text)}</div>`).join("");
@@ -160,6 +183,13 @@ function paint() {
   document.querySelectorAll("[data-reason]").forEach(b => b.classList.toggle("on", b.dataset.reason === cur.reason));
   document.querySelectorAll("[data-ok]").forEach(b => b.classList.toggle("on", b.dataset.ok === cur.ba_reply_ok));
   $("amb").classList.toggle("on", cur.ambiguous);
+  // outline whatever the practice round pre-set, so it's clear which choices came from there
+  const mark = (sel, attr, val) => document.querySelectorAll(sel).forEach(b =>
+    b.classList.toggle("pre", val !== null && val !== undefined && b.dataset[attr] === String(val)));
+  mark("[data-intent]", "intent", preset && preset.intent);
+  mark("[data-esc]", "esc", preset && preset.escalate !== null ? (preset.escalate ? "1" : "0") : null);
+  mark("[data-reason]", "reason", preset && preset.reason);
+  mark("[data-ok]", "ok", preset && preset.ba_reply_ok);
   $("reasonWrap").hidden = cur.escalate !== true;
   // staged reveal: BA's real reply appears only once the blind judgements are made
   const ready = cur.intent && cur.escalate !== null && (cur.escalate === false || cur.reason);

@@ -157,3 +157,8 @@ guidelines need sharpening.
 - 2026-09-10: Escalation reasons set to eight (decision log #16). "Needs booking access" limited
   to urgent booking cases.
 - 2026-09-10: Intent section added: ten intents curated from the k=12 cluster report (decision log #18).
+- 2026-09-10: The 57 cases judged in the practice round arrive pre-set from the latest practice save
+  (escalation, reason, BA rating, note; intent only where the practice category maps cleanly) and are
+  reviewed case by case under a yellow banner; pre-set choices are outlined. The 4 saved before the
+  urgent-booking rule are judged fresh. All 57 are recorded as previously exposed to BA's reply
+  (decision log #20).
