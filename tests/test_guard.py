@@ -55,6 +55,20 @@ check(bool(guard.check("still nothing", [{"role": "customer", "text": "I emailed
 check(not guard.check("thanks", [{"role": "brand", "text": "We have passed this to our legal team"}])["hits"],
       "ignores BA's own turns")
 
+# Regression for smoke-test case 1 (paraphrased, not copied from the golden case): an urgency word
+# in a weeks-old earlier turn must not make a follow-up look urgent; the refund dispute still counts.
+stale = guard.check("Any update on when that will actually happen?",
+                    [{"role": "customer", "text": "Flight cancelled this morning, had to book another airline"},
+                     {"role": "brand", "text": "Sorry to hear about the cancellation."},
+                     {"role": "customer", "text": "Weeks later and I'm still waiting for a refund"}])["hits"]
+reasons_fired = {h["reason"] for h in stale}
+check("needs_booking_access" not in reasons_fired and {"compensation_dispute", "repeated_contact"} <= reasons_fired,
+      f"stale urgency in an earlier turn doesn't fire; the thread's refund dispute still does: {sorted(reasons_fired)}")
+fresh = guard.check("It's today and I still can't check in, please help",
+                    [{"role": "customer", "text": "The app won't load my booking"}])["hits"]
+check(bool(fresh) and fresh[0]["reason"] == "needs_booking_access",
+      "urgency in the current message still fires, using the thread's booking context")
+
 pii = guard.check("My booking ref is J9VG7T on flight BA0462, email me at a.b@example.com")["pii"]
 check("booking_reference" in pii and "email" in pii, f"flags personal data: {pii}")
 check(guard.check("Flight BA0462 was lovely")["pii"] == [], "a flight number is not a booking reference")

@@ -102,6 +102,25 @@ check(o["needs_human"] and o["escalation_reason"] == "unclear_request" and o["lo
 o = Agent(k=0).run({"case_id": "t", "customer_msg": "my bag", "context": []})
 check(not o["needs_human"] and not o["low_confidence"], "with no threshold set, confidence doesn't change the decision")
 
+# ------------------------------------------------------------------ reply gate (A+gate)
+check(all(isinstance(o["retrieval_top_score"], float) for o in out), "top retrieval similarity recorded as a risk signal")
+llm.use_provider("generator", mock({"intent": "baggage", "intent_confidence": 0.9, "needs_human": False,
+                                    "escalation_reason": None, "reply": "Your extra bag costs £15, please pay at the airport."}))
+bike = {"case_id": "t", "customer_msg": "can I bring my bike", "context": []}
+o_plain, o_gate = Agent(k=0).run(bike), Agent(k=0, reply_gate=True).run(bike)
+check(not o_plain["needs_human"] and o_gate["needs_human"] and o_gate["reply_gate"]["escalated"]
+      and "fabricated" in o_gate["reply_gate"]["failed_checks"] and o_gate["system"] == "A-no-retrieval+gate",
+      "A+gate escalates a draft with an invented fee that plain A would auto-send")
+check(o_gate["reply"] == o_plain["reply"] and o_gate["escalated_by"] == ["reply_gate"] and o_gate["escalation_reason"] is None,
+      "the gate keeps the draft for the human and records why")
+llm.use_provider("generator", mock({"intent": "baggage", "intent_confidence": 0.9, "needs_human": False,
+                                    "escalation_reason": None, "reply": "So sorry. Would a voucher for future travel help?"}))
+check(Agent(k=0, reply_gate=True).run(bike)["reply_gate"]["failed_checks"] == ["offers"], "a volunteered voucher is gated")
+llm.use_provider("generator", mock())
+check(not Agent(k=0, reply_gate=True).run({"case_id": "t", "customer_msg": "my bag is lost", "context": []})["needs_human"],
+      "a clean draft still auto-sends through the gate")
+check(Agent(k=0, reply_gate=True).run(threat)["escalated_by"] == ["guard"], "the gate never replaces an earlier escalation")
+
 # ------------------------------------------------------------------ real local profile, no Ollama
 llm.clear_overrides()
 llm.set_mode("local")

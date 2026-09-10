@@ -3,20 +3,24 @@ the `generator` role, validate what comes back, then apply the deterministic gua
 
     from agent import Agent
     Agent().run({"customer_msg": "...", "context": [...]})
+    Agent(reply_gate=True)          # "A+gate": a draft that fails the reply checks isn't auto-sent
 
 The provider comes from config/models.json via src/llm.py, so the agent never knows whether
 a local model, the optional paid API or a test mock is answering.
 
 Every result has the same shape, whatever happens:
     intent, intent_confidence, needs_human, escalation_reason, reply
-plus provenance: the model spec, the retrieved case ids, the guard's hits and personal-data
-flags, the model's own escalation decision before the guard, and any validation errors.
+plus provenance: the model spec, the retrieved case ids and top retrieval similarity, the
+guard's hits and personal-data flags, the model's own escalation decision, which layers
+escalated the case (escalated_by), the reply checks that fired, and any validation errors.
 
 Failure is safe by construction. If the provider is unavailable or returns something
 unusable, the case is escalated and the error is recorded; nothing is dropped. With a
-confidence threshold set (min_confidence, chosen later from the risk-coverage curve), a
-case the model is unsure about also goes to a human. The agent only sees the customer's
-message and earlier turns, never BA's actual reply to the case it is answering.
+confidence threshold set, an unsure case goes to a human. With the reply gate on, a draft
+that fails the deterministic reply checks (invented specifics, promises, commitments, offers,
+too long...) goes to a human with the draft attached. The gate only ever adds escalations.
+The agent only sees the customer's message and earlier turns, never BA's actual reply to the
+case it is answering.
 """
 from __future__ import annotations
 
@@ -27,6 +31,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import guard  # noqa: E402
 import llm  # noqa: E402
+from reply_checks import check_reply, failed  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 TAXONOMY = ROOT / "data" / "golden" / "taxonomy.json"
@@ -131,8 +136,9 @@ def normalise(raw: dict, intent_ids: set[str], reason_ids: set[str]) -> tuple[di
 
 class Agent:
     def __init__(self, k: int = 5, use_guard: bool = True, min_confidence: float | None = None,
-                 retriever=None, temperature: float = 0.0, seed: int = 0, name: str | None = None):
-        self.k, self.use_guard, self.min_confidence = k, use_guard, min_confidence
+                 reply_gate: bool = False, retriever=None, temperature: float = 0.0, seed: int = 0,
+                 name: str | None = None):
+        self.k, self.use_guard, self.min_confidence, self.reply_gate = k, use_guard, min_confidence, reply_gate
         self.temperature, self.seed = temperature, seed
         self.intents, self.reasons = load_schema()
         self.intent_ids = {i["id"] for i in self.intents}
@@ -140,7 +146,8 @@ class Agent:
         self.system = system_prompt(self.intents, self.reasons)
         self._retriever = retriever
         self.name = name or ("A" + ("" if k else "-no-retrieval") + ("" if use_guard else "-no-guard")
-                             + (f"-conf{min_confidence}" if min_confidence is not None else ""))
+                             + (f"-conf{min_confidence}" if min_confidence is not None else "")
+                             + ("+gate" if reply_gate else ""))
 
     @property
     def retriever(self):
@@ -172,15 +179,24 @@ class Agent:
             out, errors = dict(FAILSAFE), [raw["_error"]]
         else:
             out, errors = normalise(raw, self.intent_ids, self.reason_ids)
+        escalated_by = ["model" if not errors else "invalid_output"] if out["needs_human"] else []
         if self.use_guard:
             final = guard.apply(out["needs_human"], out["escalation_reason"], g["hits"])
         else:
             final = {"needs_human": out["needs_human"], "escalation_reason": out["escalation_reason"],
                      "guard_escalated": False}
+        if final["guard_escalated"]:
+            escalated_by.append("guard")
         conf = out["intent_confidence"]
         low = self.min_confidence is not None and (conf is None or conf < self.min_confidence)
         if low and not final["needs_human"]:
             final = {**final, "needs_human": True, "escalation_reason": LOW_CONFIDENCE_REASON}
+            escalated_by.append("low_confidence")
+        fails = failed(check_reply(out["reply"], case["customer_msg"], case.get("context")))
+        gated = self.reply_gate and bool(fails) and not final["needs_human"]
+        if gated:      # the draft goes to a human; no escalation reason fits a bad draft
+            final = {**final, "needs_human": True, "escalation_reason": None}
+            escalated_by.append("reply_gate")
         return {"case_id": case.get("case_id"), "system": self.name, "model": spec,
                 "intent": out["intent"], "intent_confidence": conf,
                 "needs_human": final["needs_human"], "escalation_reason": final["escalation_reason"],
@@ -188,4 +204,8 @@ class Agent:
                 "llm_needs_human": out["needs_human"], "llm_escalation_reason": out["escalation_reason"],
                 "guard": {"hits": g["hits"], "pii": g["pii"], "escalated": final["guard_escalated"]},
                 "low_confidence": low,
-                "retrieved": [x["case_id"] for x in exemplars], "valid": not errors, "errors": errors}
+                "reply_gate": {"on": self.reply_gate, "escalated": gated, "failed_checks": fails},
+                "escalated_by": escalated_by,
+                "retrieved": [x["case_id"] for x in exemplars],
+                "retrieval_top_score": exemplars[0]["score"] if exemplars else None,
+                "valid": not errors, "errors": errors}

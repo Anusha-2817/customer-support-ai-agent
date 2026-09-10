@@ -97,8 +97,12 @@ def check(customer_msg: str, context: list[dict] | None = None) -> dict:
         m = pat.search(text)
         if m:
             hits.append({"reason": reason, "rule": rule, "evidence": m.group(0)})
-    if _URGENT.search(text) and _BOOKING.search(text) and _PROBLEM.search(text):
-        m = _URGENT.search(text)
+    # Urgency is about now. Time words in earlier turns can be stale ("this morning", written a
+    # month ago, made a refund follow-up look urgent in the smoke test), so the urgency itself
+    # must be in the current message. The booking and problem words may come from the thread,
+    # since a short follow-up often relies on it.
+    m = _URGENT.search((customer_msg or "").lower())
+    if m and _BOOKING.search(text) and _PROBLEM.search(text):
         hits.append({"reason": "needs_booking_access", "rule": "urgent_booking_problem", "evidence": m.group(0)})
     hits.sort(key=lambda h: PRIORITY.index(h["reason"]))
     pii = [kind for kind, pat in _PII if pat.search(raw)]

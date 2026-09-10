@@ -13,10 +13,15 @@ Only labelled cases are scored; each subset reports how many that was.
 
 Per system and subset: intent accuracy, macro-F1, per-intent P/R/F1 and the confusion matrix;
 must-escalate recall, unsafe-auto rate, coverage, escalation precision, reason agreement;
-the risk-coverage curve and the best operating point under the 5% unsafe-auto bar; the
-deterministic reply checks, both over all replies and over auto-sent replies only (what
-would actually reach customers); and the share of valid model outputs. Headline rates carry
-95% bootstrap intervals, and the agent is compared with B1 and B0 by paired bootstrap.
+a risk-coverage curve and the best operating point under the 5% unsafe-auto bar for every
+risk signal present (tfidf_support, retrieval_top_score, the model's intent_confidence, and
+consistency if it was run); the deterministic reply checks, both over all replies and over
+auto-sent replies only (what would actually reach customers); and the share of valid model
+outputs. Headline rates carry 95% bootstrap intervals, and the agent is compared with B1, B0
+and its reply-gated variant by paired bootstrap.
+
+A+gate uses the reply checks as its gate, so its auto-sent replies pass them by construction;
+results.md says so, and judge or human scores are the independent measure of its replies.
 
 Secondary analysis: agreement between the labeller's practice-round escalation decisions
 and their final labels, on the practice-exposed cases.
@@ -36,7 +41,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import metrics as M  # noqa: E402
-from reply_checks import check_reply  # noqa: E402
+from reply_checks import LIST_CHECKS, check_reply  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 GOLD = ROOT / "data" / "golden"
@@ -45,7 +50,8 @@ CASES = GOLD / "to_label.jsonl"
 TAXONOMY = GOLD / "taxonomy.json"
 PREFILL = GOLD / "prefill_from_practice.jsonl"
 MAX_RISK = 0.05
-COMPARE = [("A", "B1"), ("A", "B0-auto-all")]
+COMPARE = [("A", "B1"), ("A", "B0-auto-all"), ("A+gate", "A")]
+SIGNALS = ["tfidf_support", "retrieval_top_score", "intent_confidence", "consistency"]
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -77,21 +83,23 @@ def score_subset(ids: list[str], preds: dict[str, dict], labels: dict[str, dict]
     pe = np.array([bool(p["needs_human"]) for p in P])
     checks = [check_reply(p["reply"], cases[i]["customer_msg"], cases[i]["context"]) for p, i in zip(P, ids)]
     ok = np.array([c["passes"] for c in checks])
-    conf = [p.get("consistency", p.get("intent_confidence")) for p in P]
     auto = ~pe
 
     def summary(mask: np.ndarray) -> dict:
         sel = [c for c, m in zip(checks, mask) if m]
         k = len(sel)
-        return {"n": k, "passes": M._r(M.rate(sum(c["passes"] for c in sel), k)),
-                "fabricated": M._r(M.rate(sum(bool(c["fabricated"]) for c in sel), k)),
-                "promises": M._r(M.rate(sum(bool(c["promises"]) for c in sel), k)),
-                "public_pii_request": M._r(M.rate(sum(c["public_pii_request"] for c in sel), k)),
-                "claims_booking_check": M._r(M.rate(sum(c["claims_booking_check"] for c in sel), k)),
-                "too_long": M._r(M.rate(sum(c["too_long"] for c in sel), k)),
-                "empty": M._r(M.rate(sum(c["empty"] for c in sel), k))}
+        out = {"n": k, "passes": M._r(M.rate(sum(c["passes"] for c in sel), k))}
+        for name in LIST_CHECKS:
+            out[name] = M._r(M.rate(sum(bool(c[name]) for c in sel), k))
+        for name in ("public_pii_request", "claims_booking_check", "too_long", "empty"):
+            out[name] = M._r(M.rate(sum(c[name] for c in sel), k))
+        return out
 
-    curve = M.risk_coverage(ge, pe, conf)
+    curves = {}
+    for sig in SIGNALS:
+        if any(p.get(sig) is not None for p in P):
+            c = M.risk_coverage(ge, pe, [p.get(sig) for p in P])
+            curves[sig] = {**c, "best_under_bar": M.best_operating_point(c, MAX_RISK)}
     return {
         "n": n,
         "intent": {**M.intent_metrics(list(yt), list(yp), intents),
@@ -102,8 +110,7 @@ def score_subset(ids: list[str], preds: dict[str, dict], labels: dict[str, dict]
                        "unsafe_auto_rate_ci": M.estimate(lambda x: M.rate((ge[x] & ~pe[x]).sum(), (~pe[x]).sum()), n, B=B),
                        "coverage_ci": M.estimate(lambda x: float(np.mean(~pe[x])), n, B=B),
                        **M.reason_agreement([l.get("reason") for l in L], [p["escalation_reason"] for p in P], ge, pe)},
-        "risk_coverage": {"confidence_source": "consistency" if any("consistency" in p for p in P) else "intent_confidence",
-                          **curve, "best_under_bar": M.best_operating_point(curve, MAX_RISK)},
+        "risk_coverage": curves,
         "reply_checks": {"all_replies": summary(np.ones(n, bool)), "auto_sent_only": summary(auto),
                          "auto_sent_pass_ci": M.estimate(lambda x: M.rate((ok[x] & ~pe[x]).sum(), (~pe[x]).sum()), n, B=B)},
         "valid_outputs": M._r(np.mean([p.get("valid", True) for p in P])),
@@ -183,12 +190,13 @@ def to_markdown(r: dict) -> str:
     if r["smoke_test"]:
         L += ["> **SMOKE TEST**: mock labels and/or mock model output. These numbers mean nothing.", ""]
     info = r.get("run_info") or {}
-    L += [f"Labels: `{r['labels_file']}` - labelled cases per subset: {r['labelled']}",
+    L += [f"Labels: `{r['labelled']}` labelled cases per subset (file `{r['labels_file']}`)",
           f"Run: git `{info.get('git_commit')}`, mode `{info.get('mode')}`, models "
           f"{ {k: v['spec'] for k, v in (info.get('models') or {}).items()} }", ""]
     titles = {"headline_uniform": "Headline: 130 uniform cases",
               "targeted": "Targeted 70 (reported separately, not part of the headline)",
               "sensitivity_uniform_unexposed": "Sensitivity: uniform cases not seen in the practice round"}
+    gated = [s for s in r["systems"] if s.endswith("+gate")]
     for key, title in titles.items():
         L += [f"## {title}", "", "| System | n | Intent acc | Macro-F1 | Must-escalate recall | Unsafe auto-send | "
               "Coverage | Auto-sent replies passing checks | Valid outputs |", "|---|---|---|---|---|---|---|---|---|"]
@@ -201,14 +209,17 @@ def to_markdown(r: dict) -> str:
                      f"{_fmt(x['escalation']['must_escalate_recall_ci'])} | {_fmt(x['escalation']['unsafe_auto_rate_ci'])} | "
                      f"{_fmt(x['escalation']['coverage_ci'])} | {_fmt(x['reply_checks']['auto_sent_pass_ci'])} | "
                      f"{x['valid_outputs']:.2f} |")
+        if gated:
+            L.append(f"\n*{', '.join(gated)} uses the reply checks as its gate, so its auto-sent replies pass them by "
+                     "construction. Judge or human scores are the independent measure of its replies.*")
         L.append("")
     L += ["## Best operating point under the 5% unsafe-auto bar (headline)", "",
-          "| System | Confidence source | Threshold | Coverage | Unsafe auto-send |", "|---|---|---|---|---|"]
+          "| System | Risk signal | Threshold | Coverage | Unsafe auto-send |", "|---|---|---|---|---|"]
     for s, subs in r["systems"].items():
         x = subs["headline_uniform"]
-        if x.get("n"):
-            b = x["risk_coverage"]["best_under_bar"]
-            L.append(f"| {s} | {x['risk_coverage']['confidence_source']} | {b['threshold']} | {b['coverage']} | {b['unsafe_auto_rate']} |")
+        for sig, c in (x.get("risk_coverage") or {}).items():
+            b = c["best_under_bar"]
+            L.append(f"| {s} | {sig} | {b['threshold']} | {b['coverage']} | {b['unsafe_auto_rate']} |")
     L += ["", "## Paired comparisons (headline; difference = first minus second)", ""]
     for k, c in r["comparisons_headline"].items():
         L.append(f"- **{k}** (n={c['n']}): " + "; ".join(

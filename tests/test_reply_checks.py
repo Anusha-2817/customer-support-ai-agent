@@ -51,6 +51,24 @@ check(not check_reply("Please DM us your booking reference and we'll take a look
 check(check_reply("I've checked your booking and your seat is confirmed.", ask)["claims_booking_check"],
       "claiming to have checked the booking is flagged")
 
+# Commitments and offers (categories seen in the smoke test; examples here are paraphrases)
+for text in ["A member of our team will be in touch as soon as there's news.", "We'll be in touch shortly.",
+             "Someone will contact you tomorrow.", "We will call you back."]:
+    check(bool(check_reply(text, ask)["commitments"]), f"commitment: {text!r}")
+for text in ["Is there anything we can do, such as a voucher for future travel?",
+             "We'd like to offer you a goodwill gesture.", "We can give you some Avios as an apology."]:
+    check(bool(check_reply(text, ask)["offers"]), f"offer: {text!r}")
+for text in ["Please DM us and we'll get back to you.", "We'll look into this for you.", "Sorry to hear this, please DM us."]:
+    r = check_reply(text, ask)
+    check(not r["commitments"] and not r["offers"], f"not a commitment or offer: {text!r}")
+
+# False-alarm context: how often BA's own human-written replies trip these checks (information only)
+import pandas as pd  # noqa: E402
+pool = pd.read_json(ROOT / "data/processed/pool.jsonl", lines=True, convert_dates=False).sample(2000, random_state=0)
+res = [check_reply(r, m, c) for r, m, c in zip(pool.brand_reply, pool.customer_msg, pool.context)]
+print("      on 2,000 real BA replies from the pool: " + ", ".join(
+    f"{k} {sum(bool(x[k]) for x in res) / len(res):.1%}" for k in ("commitments", "offers", "promises", "fabricated")))
+
 check(not check_reply("x" * 280, ask)["too_long"] and check_reply("x" * 281, ask)["too_long"], "280 characters fit, 281 don't")
 e = check_reply("", ask)
 check(e["empty"] and not e["passes"], "an empty draft does not pass")

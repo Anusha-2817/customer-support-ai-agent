@@ -192,3 +192,22 @@ The final report keeps the 10–15 most consequential. Format: **decision**, the
     harness doesn't read them before they are final. Writing the tests caught one real bug: the
     flight-number normaliser only worked at the start of a string, so a reply repeating the
     customer's own BA0462 as BA462 was flagged as invented.
+
+24. **Four changes from a 5-case smoke test with the real local model, and a rule that golden
+    cases are never used for tuning.** The first real run (qwen2.5:3b, 5 uniform golden cases,
+    about 33 s per case) returned valid JSON every time but never escalated on its own, reported
+    confidence 1.0 on every case, invented a GBP 15 fee in a reply that would have been auto-sent,
+    volunteered a voucher, and ran past 280 characters. (1) The guard's urgency rule now reads only
+    the current message: "this morning" in a month-old turn had labelled a refund follow-up as an
+    urgent booking problem. The guard now fires on 15.1% of eval messages, down from 16.3%.
+    (2) A+gate, a new system run alongside an unchanged plain A, stops a draft that fails the
+    deterministic reply checks from being auto-sent. Its auto-sent replies pass those checks by
+    construction, which results.md states, so judge and human scores measure its replies.
+    (3) The reply checks gained commitments ("will be in touch") and offers (vouchers, goodwill
+    gestures); on 2,000 real BA replies from the pool they fire 0.9% and 0.4% of the time.
+    (4) Risk-coverage uses cheap signals, TF-IDF's probability for the agent's intent and the top
+    retrieval similarity, because the model's confidence was uninformative and self-consistency
+    would multiply a ~1 h 50 min run. The failure categories came from looking at 5 golden cases,
+    so to avoid tuning on the test set the new patterns are generic and tested on paraphrases,
+    and any further prompt or rule tuning uses a 30-case development set drawn from the retrieval
+    pool (3 per silver intent), whose runs retrieve from the pool minus those cases.

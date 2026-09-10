@@ -143,6 +143,9 @@ how roles map to providers.
 - Rules for legal threats, compensation / EU261 / money amounts, safety and medical issues,
   personal data posted publicly, and repeated contact.
 - **Monotone**: it can only escalate, never downgrade. An ablation measures its safety gain and coverage cost.
+- The urgency rule (Needs booking access) reads only the current message: time words in earlier turns can be
+  stale (a smoke-test case had "this morning" from a month earlier). Other rules read the customer's whole
+  thread (decision log #24).
 
 ### C6 Baselines and ablations
 | System | Intent | Reply | Escalation |
@@ -152,6 +155,7 @@ how roles map to providers.
 | A agent | LLM | retrieval + generation | LLM + guard |
 | A − retrieval | LLM | no exemplars | LLM + guard |
 | A − guard | LLM | retrieval + generation | LLM only |
+| A+gate | LLM | retrieval + generation | LLM + guard + reply gate: a draft failing the deterministic checks is not auto-sent |
 
 B1 answers the obvious objection: "why not just reuse what BA said last time?"
 B0 and B1 need no LLM at all; the A rows need the `generator` role.
@@ -181,12 +185,16 @@ paired bootstrap for differences between systems.
 - unsafe-auto rate = P(should escalate | auto-sent);
 - coverage = share auto-handled;
 - risk–coverage curve over a confidence threshold (Geifman & El-Yaniv, 2017), with B0's two extremes as anchors;
-- confidence = self-consistency over 5 samples (Wang et al., 2022); verbalised confidence
-  as an ablation, since it is known to be overconfident (Xiong et al., 2024).
+- risk signals: the model's own confidence was 1.0 on every smoke-test case (overconfidence, as Xiong et al.,
+  2024 warn), so the curve uses cheap signals instead: TF-IDF's probability for the agent's intent and the top
+  retrieval similarity. Self-consistency (Wang et al., 2022) stays available but off by default, because on
+  this CPU it multiplies run time by the number of samples (decision log #24).
 
 **Reply quality**, in three layers:
-1. Deterministic checks: length ≤ 280; a fabricated-specifics detector (flight numbers,
-   times, amounts, dates, phone numbers that don't appear in the input); promise language; public requests for personal data.
+1. Deterministic checks: length ≤ 280; a fabricated-specifics detector (flight numbers, times, dates,
+   amounts, durations, phone numbers and links that don't appear in the conversation); promises; commitments
+   to future contact; offers of vouchers or perks; public requests for personal data; claims to have checked a
+   booking. A+gate also uses them as a gate, so its auto-sent replies pass by construction (decision log #24).
 2. Similarity to BA's actual reply (embedding cosine, ROUGE-L), reported as a
    **flawed** metric. B1 is expected to win it, which shows it rewards mimicry.
 3. LLM judge (the `judge` role: locally `llama3.2:3b`, a different model family from the
@@ -232,6 +240,8 @@ sendable-when-auto ≥ 85%. The conclusion may be per intent:
 - **Runs and scoring.** src/run_systems.py writes per-system predictions plus run_info; src/evaluate.py scores them
   (uniform 130 headline, targeted 70 separately, a sensitivity row without the 57 practice-exposed cases),
   refuses mock-model output unless --smoke, and gives no interval to a statistic undefined in most resamples.
+- **Dev set.** Prompt and rule tuning uses 30 retrieval-pool cases (data/dev/dev_cases.jsonl, 3 per silver
+  intent), never golden cases; dev runs retrieve from the pool minus those 30.
 - Pinned model revisions (the embedding model's HuggingFace revision) and fixed seeds.
 - Dependencies: `requirements.txt` (core, offline), `requirements-local.txt` (local models),
   `requirements-live.txt` (optional paid provider).
@@ -260,9 +270,11 @@ Limitations, stated rather than hidden:
   lower. English-only; inputs over 256 word pieces are truncated (tweets fit).
 - **3B local models** follow instructions and emit valid JSON less reliably than GPT-4-class
   models. Invalid outputs are counted and reported, never silently dropped.
-- **Speed.** On this CPU (Ryzen 5 5500U, no CUDA GPU) a 3B model is estimated at 30–90 minutes
-  per 200-case run, and 5-sample self-consistency multiplies that by five; the verbalised-confidence
-  ablation may have to stand in for it, which will be reported if so.
+- **Speed.** Measured on this CPU (Ryzen 5 5500U, no CUDA GPU): about 33 s per case with qwen2.5:3b
+  (~1,300 prompt tokens), so ~1 h 50 min per 200-case agent run. Self-consistency is therefore skipped and
+  cheap risk signals stand in for it.
+- **The 3B model escalated nothing on its own in the 5-case smoke test**: the guard made all three
+  escalations, and the model's confidence was 1.0 every time. One auto-sent draft invented a fee.
 - **A local judge is not the planned GPT-class judge.** Its agreement with the human scores is
   measured and reported separately; its numbers are never presented as equivalent.
 
