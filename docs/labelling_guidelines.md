@@ -1,9 +1,8 @@
 # Labelling guidelines: golden set
 
-*Status: draft for review. The escalation section is complete; the intent section is written
-after the taxonomy is curated. These guidelines must be final before real labelling starts.
-Any change after labelling begins goes in the change log at the bottom, with a date, because
-a mid-way change makes earlier labels inconsistent with later ones.*
+*Status: complete draft for review. Both sections are written. These guidelines must be final
+before real labelling starts. Any change after labelling begins goes in the change log at the
+bottom, with a date, because a mid-way change makes earlier labels inconsistent with later ones.*
 
 ---
 
@@ -21,7 +20,7 @@ For each item, in this order:
 
 | Key | Action |
 |---|---|
-| `1`…`0`, `-`, `=` | Intent |
+| `1`…`9`, `0` | Intent (see the table in section 1) |
 | `A` / `E` | Auto / escalate |
 | `Shift+1`…`Shift+8` | Escalation reason |
 | `Y` / `N` / `U` | BA's reply acceptable: yes / no / unsure |
@@ -35,8 +34,41 @@ Stay blind: don't look the case up anywhere else, and never look at model output
 
 ## 1. Intent
 
-*Written after taxonomy curation.* The rule for choosing already applies: pick the **single**
-intent that answers **"what does the customer want BA to do?"**, not what the message is about.
+Pick the **single** intent that answers **"what does the customer want BA to do?"**, not what the
+message is about. Ten intents, curated from real retrieval-pool messages (decision log #18):
+
+| Key | Intent | The customer wants BA to… |
+|---|---|---|
+| `1` | Flight disruption | help with a delayed, cancelled or diverted flight, or a missed connection |
+| `2` | Baggage & lost property | find, deliver or explain a bag, or an item left behind |
+| `3` | Booking, seats & upgrades | change, cancel, correct or add to their own booking |
+| `4` | Website, app & online check-in | fix a problem with the website, app or online check-in |
+| `5` | Executive Club & Avios | sort out Avios, tier points, reward flights or their account |
+| `6` | Refunds, claims & case follow-up | pay money back, or move an existing complaint, claim or refund forward |
+| `7` | Contact & DM logistics | follow them, check a DM, give contact details, reply |
+| `8` | Travel information | answer a general question: policies, routes, lounges, facilities, documents |
+| `9` | Service complaint | hear a complaint about their experience, with no more specific request |
+| `0` | Other / non-actionable | nothing: praise, thanks, banter, social posts, off-topic |
+
+### Boundary rules
+1. **A specific request always wins.** "Awful flight, and where's my bag?" is Baggage, not
+   Service complaint.
+2. **Now vs later.** A disruption happening now or about to happen is Flight disruption. Money for
+   a past one, or chasing a claim about it, is Refunds, claims & case follow-up.
+3. **Chasing is follow-up.** Chasing anything already submitted to customer relations (complaint,
+   claim, refund) is Refunds, claims & case follow-up, whatever the original topic.
+4. **Channel vs content.** If the website or app is what's failing, it's Website, app & online
+   check-in; if they just want their booking changed, it's Booking. "Please reply to my DM" with no
+   problem stated is Contact & DM logistics; if the problem is stated, label the problem.
+5. **Own booking vs general question.** Questions about their own booking are Booking; general
+   questions (policies, routes, lounges, documents) are Travel information. Reward-flight bookings
+   are Executive Club & Avios.
+6. **Positive vs negative with no request.** Praise, thanks and social posts are Other; a negative
+   experience with no request is Service complaint.
+7. **Short follow-ups use the thread.** For replies like "still nothing" or "done, sent it", use the
+   earlier turns to decide what the conversation is about.
+
+Intent is not urgency: whether a message needs a human is decided separately, in section 2.
 
 ---
 
@@ -124,3 +156,4 @@ guidelines need sharpening.
 ## Change log
 - 2026-09-10: Escalation reasons set to eight (decision log #16). "Needs booking access" limited
   to urgent booking cases.
+- 2026-09-10: Intent section added: ten intents curated from the k=12 cluster report (decision log #18).
