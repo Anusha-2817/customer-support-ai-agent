@@ -1,0 +1,212 @@
+{
+  "_how_to": "Copy this file to curation.json and edit it. Define 8-10 intents (delete unused blank ones); ids are snake_case, e.g. flight_disruption. Set every cluster's 'intent' to one of your ids. Then run: python src/taxonomy.py finalize",
+  "_suggestions_by": null,
+  "intents": [
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    },
+    {
+      "id": "",
+      "name": "",
+      "definition": "",
+      "boundary_notes": ""
+    }
+  ],
+  "clusters": {
+    "0": {
+      "intent": "",
+      "size": 589,
+      "words": [
+        "flight",
+        "booking",
+        "ticket",
+        "hi",
+        "help"
+      ],
+      "example": "Do you have a customer services no. I can contact today? At Heathrow & BA/Agent have changed my flight without telling me."
+    },
+    "1": {
+      "intent": "",
+      "size": 421,
+      "words": [
+        "luggage",
+        "bag",
+        "baggage",
+        "bags",
+        "hand"
+      ],
+      "example": "Hey BA, remember when you said I needed to buy a bag? The airport the check in staff said they were taking effected bags in the hold for free and I should complain, so..... can you refund me for the bag I needlessly bought?"
+    },
+    "2": {
+      "intent": "",
+      "size": 616,
+      "words": [
+        "flight",
+        "plane",
+        "crew",
+        "airline",
+        "service"
+      ],
+      "example": "on flight BA559. Late, horrific old plane, broken seat! At least on board staff lovely. Even Alitalia planes newer! Poor.."
+    },
+    "3": {
+      "intent": "",
+      "size": 538,
+      "words": [
+        "really",
+        "meal",
+        "lounge",
+        "think",
+        "yes"
+      ],
+      "example": "Thanks to the crew for putting their F&B on my room at The Palazzo Hotel. You're getting all the charges back as the hotel knows who you are..."
+    },
+    "4": {
+      "intent": "",
+      "size": 309,
+      "words": [
+        "website",
+        "app",
+        "problem",
+        "error",
+        "online"
+      ],
+      "example": "are you having problems with your app? Trying to amend a booking and says I can't log in to my booking, top many unsuccessful attempts. Thanks"
+    },
+    "5": {
+      "intent": "",
+      "size": 519,
+      "words": [
+        "safety",
+        "video",
+        "today",
+        "great",
+        "thank"
+      ],
+      "example": "BA flight this week - great views! #flying #BA <link>"
+    },
+    "6": {
+      "intent": "",
+      "size": 444,
+      "words": [
+        "london",
+        "heathrow",
+        "gatwick",
+        "lhr",
+        "flying"
+      ],
+      "example": "Just back from London flying BA Club World Great flight, great service and very comfortable"
+    },
+    "7": {
+      "intent": "",
+      "size": 282,
+      "words": [
+        "seat",
+        "seats",
+        "booking",
+        "reserve",
+        "sit"
+      ],
+      "example": "There were 5 extra leg room seats available for booking at the time I was checking in. The BA app allowed me to select these seats and choose them for £58 each. I did so. The app then completed check in, but reverted to the standard seats I had deselected."
+    },
+    "8": {
+      "intent": "",
+      "size": 99,
+      "words": [
+        "avios",
+        "points",
+        "use",
+        "book",
+        "using"
+      ],
+      "example": "You are meant to earn avios on the part you paid for. I paid for a premium economy ticket & should earn avios on that portion of the ticket"
+    },
+    "9": {
+      "intent": "",
+      "size": 402,
+      "words": [
+        "delayed",
+        "flight",
+        "delay",
+        "hours",
+        "lhr"
+      ],
+      "example": "To top it, the rebooked flight #ba429 is delayed by 2 hrs 😞"
+    },
+    "10": {
+      "intent": "",
+      "size": 431,
+      "words": [
+        "customer",
+        "complaint",
+        "service",
+        "refund",
+        "response"
+      ],
+      "example": "will anyone ever respond to my complaint I've been waiting 4 weeks. Worst customer service ever."
+    },
+    "11": {
+      "intent": "",
+      "size": 350,
+      "words": [
+        "dm",
+        "thanks",
+        "thank",
+        "follow",
+        "email"
+      ],
+      "example": "Can’t seem to DM you. Is there another way I can send the details you requested"
+    }
+  }
+}
