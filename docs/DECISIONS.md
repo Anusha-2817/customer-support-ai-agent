@@ -152,3 +152,17 @@ The final report keeps the 10–15 most consequential. Format: **decision**, the
     server records on every saved label whether it was pre-set, that BA's reply had been seen, and which
     pre-set fields changed. The 130 uniform cases remain the headline set and the 130/70 split is
     unchanged; practice-vs-final agreement is reported only as a secondary analysis.
+
+## Agent
+
+21. **A deterministic guard that can only add escalations, with personal data as a reply
+    constraint rather than a reason to escalate.** Rules for seven of the eight reasons scan the
+    customer's message and earlier customer turns, never BA's; Unclear request has no rule because
+    keywords can't recognise it. The rules are conservative, since a false alarm costs a minute and
+    a miss can cost a public post, and fire on 16.3% of eval messages. Tests include near-misses
+    that must stay quiet ("safety video", "Hi Sue", "how do I claim compensation?") and the monotone
+    property over all 5,937 eval messages. Personal data posted publicly is flagged but not
+    escalated: under our definition a safe reply exists (move to DM, suggest deleting the tweet),
+    so the agent's prompt is told instead. Known bias: the targeted golden stratum was sampled with
+    keyword triggers that share vocabulary with these rules, so guard recall is reported on the
+    uniform 130 only. The sampler's docstring had claimed the two were independent and was corrected.

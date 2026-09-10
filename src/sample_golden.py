@@ -19,9 +19,10 @@ Targeted allocation, in order:
    most: must-escalate recall needs enough positive cases for a usable confidence
    interval. A first version sent unused rare-intent slots to random top-ups (26 of 70);
    now they go here.
-Neither heuristic is ground truth, and the triggers are deliberately NOT the agent's
-guard rules: if the guard's own rules chose the test cases, it would look better than
-it is.
+Neither heuristic is ground truth. The triggers were written before the agent's guard and
+are separate code, but they share vocabulary with the guard's rules (legal, compensation,
+safety words), so guard recall on the targeted stratum is biased upward. That is why guard
+metrics are reported on the uniform 130 only (decision log #21).
 
 Selection is by a salted hash of case_id, not by row position. Row-position sampling
 (df.sample) reshuffles the entire sample whenever an upstream fix adds or drops a
