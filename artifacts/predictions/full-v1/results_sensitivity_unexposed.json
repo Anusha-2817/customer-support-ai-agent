@@ -1,0 +1,4718 @@
+{
+  "smoke_test": false,
+  "created": "2026-09-11T00:59:16",
+  "labels_file": "D:\\Agentic_Assignment\\data\\golden\\labels_round1.jsonl",
+  "labelled": {
+    "headline_uniform": 130,
+    "targeted": 70,
+    "sensitivity_uniform_unexposed": 73
+  },
+  "run_info": {
+    "created": "2026-09-11T00:50:57",
+    "git_commit": "b42ef5d",
+    "n_cases": 200,
+    "case_set": [
+      "targeted",
+      "uniform"
+    ],
+    "systems": [
+      "B0-escalate-all",
+      "B0-auto-all",
+      "B1",
+      "A",
+      "A+gate",
+      "A-no-retrieval",
+      "A-no-guard"
+    ],
+    "seconds_per_system": {
+      "B0-escalate-all": 0.0,
+      "B0-auto-all": 0.0,
+      "B1": 0.2,
+      "A": 0.5,
+      "A+gate": 0.5,
+      "A-no-retrieval": 0.3,
+      "A-no-guard": 0.6
+    },
+    "consistency_samples": 0,
+    "mode": "offline",
+    "profile": "local",
+    "models": {
+      "embedding": {
+        "spec": "sentence-transformers:all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "available": true
+      },
+      "generator": {
+        "spec": "ollama:qwen2.5:3b",
+        "available": true
+      }
+    }
+  },
+  "subset": "sensitivity_uniform_unexposed",
+  "systems": {
+    "A+gate": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.4384,
+        "macro_f1": 0.4743,
+        "macro_over_intents": 10,
+        "invalid_predictions": 1,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.1667,
+            "recall": 0.25,
+            "f1": 0.2,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 1.0,
+            "recall": 0.2857,
+            "f1": 0.4444,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.7778,
+            "recall": 0.6364,
+            "f1": 0.7,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.4,
+            "recall": 0.4,
+            "f1": 0.4,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.8,
+            "recall": 0.4444,
+            "f1": 0.5714,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.4706,
+            "recall": 0.6667,
+            "f1": 0.5517,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.24,
+            "recall": 0.8571,
+            "f1": 0.375,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              7,
+              0,
+              0,
+              1,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              2,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              8,
+              2,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              8,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4384,
+          "ci95": [
+            0.3284,
+            0.5616
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.4743,
+          "ci95": [
+            0.2989,
+            0.5642
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 30,
+        "auto_sent": 43,
+        "missed_escalations": 14,
+        "must_escalate_recall": 0.6111,
+        "unsafe_auto_rate": 0.3256,
+        "coverage": 0.589,
+        "escalation_precision": 0.7333,
+        "must_escalate_recall_ci": {
+          "value": 0.6111,
+          "ci95": [
+            0.4516,
+            0.7647
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.3256,
+          "ci95": [
+            0.1891,
+            0.475
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.589,
+          "ci95": [
+            0.4795,
+            0.6986
+          ]
+        },
+        "n_both_escalated": 22,
+        "same_reason": 0.4091
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3256
+            },
+            {
+              "threshold": 0.0158,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3256
+            },
+            {
+              "threshold": 0.0169,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.0225,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.3415
+            },
+            {
+              "threshold": 0.0255,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.35
+            },
+            {
+              "threshold": 0.0357,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.0493,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.3421
+            },
+            {
+              "threshold": 0.0507,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.3243
+            },
+            {
+              "threshold": 0.061,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.0716,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.3143
+            },
+            {
+              "threshold": 0.0842,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.3235
+            },
+            {
+              "threshold": 0.0846,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.0863,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.3438
+            },
+            {
+              "threshold": 0.0865,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.3548
+            },
+            {
+              "threshold": 0.0904,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.3667
+            },
+            {
+              "threshold": 0.0921,
+              "coverage": 0.3973,
+              "unsafe_auto_rate": 0.3793
+            },
+            {
+              "threshold": 0.0964,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.3929
+            },
+            {
+              "threshold": 0.0982,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4074
+            },
+            {
+              "threshold": 0.0998,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.4231
+            },
+            {
+              "threshold": 0.109,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.1178,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.1198,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.4348
+            },
+            {
+              "threshold": 0.1334,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.1389,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.45
+            },
+            {
+              "threshold": 0.1655,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.4737
+            },
+            {
+              "threshold": 0.1687,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.1781,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.5294
+            },
+            {
+              "threshold": 0.2229,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.2334,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.4667
+            },
+            {
+              "threshold": 0.2536,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.258,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.2824,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.3206,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.396,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.3985,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.426,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.4665,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.6069,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.1667
+            },
+            {
+              "threshold": 0.7316,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.7455,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.7734,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7867,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.9591,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.2123,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.7867,
+            "coverage": 0.0274,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "retrieval_top_score": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3256
+            },
+            {
+              "threshold": 0.4201,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3256
+            },
+            {
+              "threshold": 0.4356,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.4473,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.3415
+            },
+            {
+              "threshold": 0.4569,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.325
+            },
+            {
+              "threshold": 0.5442,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.5579,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.3421
+            },
+            {
+              "threshold": 0.578,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.3514
+            },
+            {
+              "threshold": 0.5811,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.3611
+            },
+            {
+              "threshold": 0.5834,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.3429
+            },
+            {
+              "threshold": 0.584,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.3529
+            },
+            {
+              "threshold": 0.5868,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.5877,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.3438
+            },
+            {
+              "threshold": 0.5924,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.3548
+            },
+            {
+              "threshold": 0.5983,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.3667
+            },
+            {
+              "threshold": 0.6049,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.3929
+            },
+            {
+              "threshold": 0.6076,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4074
+            },
+            {
+              "threshold": 0.6088,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.4231
+            },
+            {
+              "threshold": 0.6116,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.44
+            },
+            {
+              "threshold": 0.6304,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.4583
+            },
+            {
+              "threshold": 0.6371,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.4783
+            },
+            {
+              "threshold": 0.6498,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.6522,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.659,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.45
+            },
+            {
+              "threshold": 0.6809,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.4737
+            },
+            {
+              "threshold": 0.6819,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6886,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.5294
+            },
+            {
+              "threshold": 0.6902,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6911,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.7095,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7113,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.719,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.724,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.5455
+            },
+            {
+              "threshold": 0.7318,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7325,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.7468,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7529,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.7567,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7622,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.7655,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.7921,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8575,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8619,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.2211,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.7921,
+            "coverage": 0.0411,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3256
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3256
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1004,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 0.8493,
+          "fabricated": 0.0548,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0548,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0411,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 43,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "valid_outputs": 0.9863
+    },
+    "A-no-guard": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.4384,
+        "macro_f1": 0.4743,
+        "macro_over_intents": 10,
+        "invalid_predictions": 1,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.1667,
+            "recall": 0.25,
+            "f1": 0.2,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 1.0,
+            "recall": 0.2857,
+            "f1": 0.4444,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.7778,
+            "recall": 0.6364,
+            "f1": 0.7,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.4,
+            "recall": 0.4,
+            "f1": 0.4,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.8,
+            "recall": 0.4444,
+            "f1": 0.5714,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.4706,
+            "recall": 0.6667,
+            "f1": 0.5517,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.24,
+            "recall": 0.8571,
+            "f1": 0.375,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              7,
+              0,
+              0,
+              1,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              2,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              8,
+              2,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              8,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4384,
+          "ci95": [
+            0.3284,
+            0.5616
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.4743,
+          "ci95": [
+            0.2989,
+            0.5642
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 10,
+        "auto_sent": 63,
+        "missed_escalations": 27,
+        "must_escalate_recall": 0.25,
+        "unsafe_auto_rate": 0.4286,
+        "coverage": 0.863,
+        "escalation_precision": 0.9,
+        "must_escalate_recall_ci": {
+          "value": 0.25,
+          "ci95": [
+            0.1249,
+            0.4
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.4286,
+          "ci95": [
+            0.3015,
+            0.5484
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.863,
+          "ci95": [
+            0.7808,
+            0.9315
+          ]
+        },
+        "n_both_escalated": 9,
+        "same_reason": 0.0
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.863,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.0158,
+              "coverage": 0.863,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.0159,
+              "coverage": 0.8493,
+              "unsafe_auto_rate": 0.4355
+            },
+            {
+              "threshold": 0.0169,
+              "coverage": 0.8356,
+              "unsafe_auto_rate": 0.4426
+            },
+            {
+              "threshold": 0.0184,
+              "coverage": 0.8219,
+              "unsafe_auto_rate": 0.45
+            },
+            {
+              "threshold": 0.0224,
+              "coverage": 0.8082,
+              "unsafe_auto_rate": 0.4407
+            },
+            {
+              "threshold": 0.0225,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.431
+            },
+            {
+              "threshold": 0.0255,
+              "coverage": 0.7808,
+              "unsafe_auto_rate": 0.4386
+            },
+            {
+              "threshold": 0.0357,
+              "coverage": 0.7671,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.0444,
+              "coverage": 0.7534,
+              "unsafe_auto_rate": 0.4364
+            },
+            {
+              "threshold": 0.0493,
+              "coverage": 0.7397,
+              "unsafe_auto_rate": 0.4259
+            },
+            {
+              "threshold": 0.0507,
+              "coverage": 0.726,
+              "unsafe_auto_rate": 0.4151
+            },
+            {
+              "threshold": 0.061,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.4231
+            },
+            {
+              "threshold": 0.0695,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.4118
+            },
+            {
+              "threshold": 0.0716,
+              "coverage": 0.6849,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.0757,
+              "coverage": 0.6712,
+              "unsafe_auto_rate": 0.4082
+            },
+            {
+              "threshold": 0.0842,
+              "coverage": 0.6575,
+              "unsafe_auto_rate": 0.3958
+            },
+            {
+              "threshold": 0.0846,
+              "coverage": 0.6438,
+              "unsafe_auto_rate": 0.4043
+            },
+            {
+              "threshold": 0.0863,
+              "coverage": 0.6301,
+              "unsafe_auto_rate": 0.413
+            },
+            {
+              "threshold": 0.0865,
+              "coverage": 0.6164,
+              "unsafe_auto_rate": 0.4222
+            },
+            {
+              "threshold": 0.0904,
+              "coverage": 0.6027,
+              "unsafe_auto_rate": 0.4318
+            },
+            {
+              "threshold": 0.0921,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.4419
+            },
+            {
+              "threshold": 0.0964,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.4524
+            },
+            {
+              "threshold": 0.0982,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.4634
+            },
+            {
+              "threshold": 0.0998,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.475
+            },
+            {
+              "threshold": 0.109,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.1174,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.4737
+            },
+            {
+              "threshold": 0.1178,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.4595
+            },
+            {
+              "threshold": 0.1198,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.4722
+            },
+            {
+              "threshold": 0.1334,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.4857
+            },
+            {
+              "threshold": 0.1389,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.4848
+            },
+            {
+              "threshold": 0.1492,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.1646,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.4839
+            },
+            {
+              "threshold": 0.1655,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.1687,
+              "coverage": 0.3973,
+              "unsafe_auto_rate": 0.5172
+            },
+            {
+              "threshold": 0.1701,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.5357
+            },
+            {
+              "threshold": 0.1781,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.5556
+            },
+            {
+              "threshold": 0.2126,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.2229,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.2253,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.5417
+            },
+            {
+              "threshold": 0.2262,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.5652
+            },
+            {
+              "threshold": 0.2334,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.5909
+            },
+            {
+              "threshold": 0.2536,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.619
+            },
+            {
+              "threshold": 0.2538,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.258,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.5789
+            },
+            {
+              "threshold": 0.2824,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.6111
+            },
+            {
+              "threshold": 0.2895,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.5882
+            },
+            {
+              "threshold": 0.3089,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5625
+            },
+            {
+              "threshold": 0.3206,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.3326,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.396,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.3985,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.426,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.4665,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.4805,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6069,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.711,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.7316,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7455,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.7734,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7867,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.8417,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.9591,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.3914,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.9591,
+            "coverage": 0.0137,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "retrieval_top_score": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.863,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.4201,
+              "coverage": 0.863,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.4356,
+              "coverage": 0.8493,
+              "unsafe_auto_rate": 0.4355
+            },
+            {
+              "threshold": 0.4473,
+              "coverage": 0.8356,
+              "unsafe_auto_rate": 0.4426
+            },
+            {
+              "threshold": 0.4569,
+              "coverage": 0.8219,
+              "unsafe_auto_rate": 0.4333
+            },
+            {
+              "threshold": 0.5442,
+              "coverage": 0.8082,
+              "unsafe_auto_rate": 0.4407
+            },
+            {
+              "threshold": 0.5579,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.4483
+            },
+            {
+              "threshold": 0.5596,
+              "coverage": 0.7808,
+              "unsafe_auto_rate": 0.4561
+            },
+            {
+              "threshold": 0.5702,
+              "coverage": 0.7671,
+              "unsafe_auto_rate": 0.4464
+            },
+            {
+              "threshold": 0.578,
+              "coverage": 0.7534,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.5811,
+              "coverage": 0.7397,
+              "unsafe_auto_rate": 0.463
+            },
+            {
+              "threshold": 0.5834,
+              "coverage": 0.726,
+              "unsafe_auto_rate": 0.4528
+            },
+            {
+              "threshold": 0.584,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.5868,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.4706
+            },
+            {
+              "threshold": 0.5877,
+              "coverage": 0.6849,
+              "unsafe_auto_rate": 0.46
+            },
+            {
+              "threshold": 0.5924,
+              "coverage": 0.6712,
+              "unsafe_auto_rate": 0.4694
+            },
+            {
+              "threshold": 0.5983,
+              "coverage": 0.6575,
+              "unsafe_auto_rate": 0.4792
+            },
+            {
+              "threshold": 0.6049,
+              "coverage": 0.6301,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6076,
+              "coverage": 0.6164,
+              "unsafe_auto_rate": 0.5111
+            },
+            {
+              "threshold": 0.6088,
+              "coverage": 0.6027,
+              "unsafe_auto_rate": 0.5227
+            },
+            {
+              "threshold": 0.6116,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.5349
+            },
+            {
+              "threshold": 0.6138,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.5476
+            },
+            {
+              "threshold": 0.6304,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.561
+            },
+            {
+              "threshold": 0.6371,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.5641
+            },
+            {
+              "threshold": 0.6481,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.5526
+            },
+            {
+              "threshold": 0.6498,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.5405
+            },
+            {
+              "threshold": 0.6522,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.5278
+            },
+            {
+              "threshold": 0.6532,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.5429
+            },
+            {
+              "threshold": 0.6575,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.5294
+            },
+            {
+              "threshold": 0.659,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.5152
+            },
+            {
+              "threshold": 0.6655,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.5484
+            },
+            {
+              "threshold": 0.6656,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.6677,
+              "coverage": 0.3973,
+              "unsafe_auto_rate": 0.5172
+            },
+            {
+              "threshold": 0.6716,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.677,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4815
+            },
+            {
+              "threshold": 0.6809,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6819,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.52
+            },
+            {
+              "threshold": 0.6886,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.5417
+            },
+            {
+              "threshold": 0.6902,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.5217
+            },
+            {
+              "threshold": 0.6911,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.5455
+            },
+            {
+              "threshold": 0.7095,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.5238
+            },
+            {
+              "threshold": 0.7108,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.55
+            },
+            {
+              "threshold": 0.7113,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.5789
+            },
+            {
+              "threshold": 0.719,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.5556
+            },
+            {
+              "threshold": 0.724,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5625
+            },
+            {
+              "threshold": 0.7261,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.7318,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7325,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.7436,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.7468,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.7529,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7567,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.7622,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7655,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.7712,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7776,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.7921,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8114,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8575,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8619,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.3938,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.7921,
+            "coverage": 0.0548,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.863,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.863,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.8493,
+              "unsafe_auto_rate": 0.4355
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1909,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 0.8493,
+          "fabricated": 0.0548,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0548,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0411,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 63,
+          "passes": 0.8254,
+          "fabricated": 0.0635,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0635,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0476,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.8254,
+          "ci95": [
+            0.723,
+            0.9123
+          ]
+        }
+      },
+      "valid_outputs": 0.9863
+    },
+    "A-no-retrieval": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.4795,
+        "macro_f1": 0.5246,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.4286,
+            "recall": 0.75,
+            "f1": 0.5455,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 1.0,
+            "recall": 0.7143,
+            "f1": 0.8333,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.7,
+            "recall": 0.6364,
+            "f1": 0.6667,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.5,
+            "recall": 0.4,
+            "f1": 0.4444,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6667,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.6,
+            "recall": 0.3333,
+            "f1": 0.4286,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6667,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.4,
+            "recall": 0.5,
+            "f1": 0.4444,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.3,
+            "recall": 0.8571,
+            "f1": 0.4444,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.25,
+            "recall": 0.0667,
+            "f1": 0.1053,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              3,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              5,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              7,
+              0,
+              1,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              2,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              6,
+              2,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              8,
+              4,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4795,
+          "ci95": [
+            0.3695,
+            0.589
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.5246,
+          "ci95": [
+            0.36,
+            0.629
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 15,
+        "auto_sent": 58,
+        "missed_escalations": 24,
+        "must_escalate_recall": 0.3333,
+        "unsafe_auto_rate": 0.4138,
+        "coverage": 0.7945,
+        "escalation_precision": 0.8,
+        "must_escalate_recall_ci": {
+          "value": 0.3333,
+          "ci95": [
+            0.1842,
+            0.4872
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.4138,
+          "ci95": [
+            0.294,
+            0.55
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.7945,
+          "ci95": [
+            0.6986,
+            0.8904
+          ]
+        },
+        "n_both_escalated": 12,
+        "same_reason": 0.75
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.4138
+            },
+            {
+              "threshold": 0.0158,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.4138
+            },
+            {
+              "threshold": 0.0169,
+              "coverage": 0.7808,
+              "unsafe_auto_rate": 0.4211
+            },
+            {
+              "threshold": 0.0183,
+              "coverage": 0.7671,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.0225,
+              "coverage": 0.7534,
+              "unsafe_auto_rate": 0.4182
+            },
+            {
+              "threshold": 0.0249,
+              "coverage": 0.7397,
+              "unsafe_auto_rate": 0.4259
+            },
+            {
+              "threshold": 0.0432,
+              "coverage": 0.726,
+              "unsafe_auto_rate": 0.4151
+            },
+            {
+              "threshold": 0.0492,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.4231
+            },
+            {
+              "threshold": 0.0493,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.4314
+            },
+            {
+              "threshold": 0.0507,
+              "coverage": 0.6849,
+              "unsafe_auto_rate": 0.42
+            },
+            {
+              "threshold": 0.0593,
+              "coverage": 0.6712,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.061,
+              "coverage": 0.6575,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.0752,
+              "coverage": 0.6438,
+              "unsafe_auto_rate": 0.4043
+            },
+            {
+              "threshold": 0.0824,
+              "coverage": 0.6301,
+              "unsafe_auto_rate": 0.413
+            },
+            {
+              "threshold": 0.0863,
+              "coverage": 0.6164,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.0865,
+              "coverage": 0.6027,
+              "unsafe_auto_rate": 0.4091
+            },
+            {
+              "threshold": 0.0982,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.4186
+            },
+            {
+              "threshold": 0.0998,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.1035,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.4146
+            },
+            {
+              "threshold": 0.1143,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.425
+            },
+            {
+              "threshold": 0.1174,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.4359
+            },
+            {
+              "threshold": 0.1178,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.4211
+            },
+            {
+              "threshold": 0.1198,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.4324
+            },
+            {
+              "threshold": 0.1334,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.1421,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.1439,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.4118
+            },
+            {
+              "threshold": 0.1486,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.4242
+            },
+            {
+              "threshold": 0.1552,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.4062
+            },
+            {
+              "threshold": 0.1607,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.4194
+            },
+            {
+              "threshold": 0.1687,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.4333
+            },
+            {
+              "threshold": 0.1701,
+              "coverage": 0.3973,
+              "unsafe_auto_rate": 0.4483
+            },
+            {
+              "threshold": 0.1954,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.4643
+            },
+            {
+              "threshold": 0.2229,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4815
+            },
+            {
+              "threshold": 0.2247,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.2262,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.48
+            },
+            {
+              "threshold": 0.2334,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.2484,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.5217
+            },
+            {
+              "threshold": 0.2536,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.5455
+            },
+            {
+              "threshold": 0.258,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.5238
+            },
+            {
+              "threshold": 0.2681,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.55
+            },
+            {
+              "threshold": 0.2695,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.5789
+            },
+            {
+              "threshold": 0.282,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.5556
+            },
+            {
+              "threshold": 0.3009,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.5882
+            },
+            {
+              "threshold": 0.3058,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5625
+            },
+            {
+              "threshold": 0.3206,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.332,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.3328,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.426,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.5833
+            },
+            {
+              "threshold": 0.4436,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.5455
+            },
+            {
+              "threshold": 0.4805,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6507,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.711,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7316,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.7455,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7711,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.7734,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7867,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.8417,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.9591,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.3601,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.9591,
+            "coverage": 0.0137,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.4138
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.4138
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.7808,
+              "unsafe_auto_rate": 0.4035
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1631,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 0.7123,
+          "fabricated": 0.0411,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.2192,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0411,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 58,
+          "passes": 0.7586,
+          "fabricated": 0.0517,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.1552,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0345,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.7586,
+          "ci95": [
+            0.6508,
+            0.8596
+          ]
+        }
+      },
+      "valid_outputs": 1.0
+    },
+    "A": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.4384,
+        "macro_f1": 0.4743,
+        "macro_over_intents": 10,
+        "invalid_predictions": 1,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.1667,
+            "recall": 0.25,
+            "f1": 0.2,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 1.0,
+            "recall": 0.2857,
+            "f1": 0.4444,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.7778,
+            "recall": 0.6364,
+            "f1": 0.7,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.4,
+            "recall": 0.4,
+            "f1": 0.4,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.8,
+            "recall": 0.4444,
+            "f1": 0.5714,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.4706,
+            "recall": 0.6667,
+            "f1": 0.5517,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.24,
+            "recall": 0.8571,
+            "f1": 0.375,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              7,
+              0,
+              0,
+              1,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1,
+              2,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              8,
+              2,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              8,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4384,
+          "ci95": [
+            0.3284,
+            0.5616
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.4743,
+          "ci95": [
+            0.2989,
+            0.5642
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 21,
+        "auto_sent": 52,
+        "missed_escalations": 19,
+        "must_escalate_recall": 0.4722,
+        "unsafe_auto_rate": 0.3654,
+        "coverage": 0.7123,
+        "escalation_precision": 0.8095,
+        "must_escalate_recall_ci": {
+          "value": 0.4722,
+          "ci95": [
+            0.3235,
+            0.6333
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.3654,
+          "ci95": [
+            0.2353,
+            0.5
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.7123,
+          "ci95": [
+            0.6027,
+            0.8082
+          ]
+        },
+        "n_both_escalated": 17,
+        "same_reason": 0.5294
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.3654
+            },
+            {
+              "threshold": 0.0158,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.3654
+            },
+            {
+              "threshold": 0.0169,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.3725
+            },
+            {
+              "threshold": 0.0225,
+              "coverage": 0.6849,
+              "unsafe_auto_rate": 0.38
+            },
+            {
+              "threshold": 0.0255,
+              "coverage": 0.6712,
+              "unsafe_auto_rate": 0.3878
+            },
+            {
+              "threshold": 0.0357,
+              "coverage": 0.6575,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.0493,
+              "coverage": 0.6438,
+              "unsafe_auto_rate": 0.383
+            },
+            {
+              "threshold": 0.0507,
+              "coverage": 0.6301,
+              "unsafe_auto_rate": 0.3696
+            },
+            {
+              "threshold": 0.061,
+              "coverage": 0.6164,
+              "unsafe_auto_rate": 0.3778
+            },
+            {
+              "threshold": 0.0716,
+              "coverage": 0.6027,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.0842,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3721
+            },
+            {
+              "threshold": 0.0846,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.381
+            },
+            {
+              "threshold": 0.0863,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.3902
+            },
+            {
+              "threshold": 0.0865,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.0904,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.4103
+            },
+            {
+              "threshold": 0.0921,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.4211
+            },
+            {
+              "threshold": 0.0964,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.4324
+            },
+            {
+              "threshold": 0.0982,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.0998,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.4571
+            },
+            {
+              "threshold": 0.109,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.4412
+            },
+            {
+              "threshold": 0.1174,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.1178,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.4375
+            },
+            {
+              "threshold": 0.1198,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.4516
+            },
+            {
+              "threshold": 0.1334,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.4667
+            },
+            {
+              "threshold": 0.1389,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.4643
+            },
+            {
+              "threshold": 0.1655,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4815
+            },
+            {
+              "threshold": 0.1687,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.1701,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.52
+            },
+            {
+              "threshold": 0.1781,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.5417
+            },
+            {
+              "threshold": 0.2229,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.5217
+            },
+            {
+              "threshold": 0.2253,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.2262,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.5238
+            },
+            {
+              "threshold": 0.2334,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.55
+            },
+            {
+              "threshold": 0.2536,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.5789
+            },
+            {
+              "threshold": 0.258,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.5556
+            },
+            {
+              "threshold": 0.2824,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.5882
+            },
+            {
+              "threshold": 0.3089,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5625
+            },
+            {
+              "threshold": 0.3206,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.3326,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.396,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.3985,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.426,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.4665,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.4805,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6069,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.711,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.7316,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7455,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.7734,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7867,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.8417,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.9591,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.3042,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.9591,
+            "coverage": 0.0137,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "retrieval_top_score": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.3654
+            },
+            {
+              "threshold": 0.4201,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.3654
+            },
+            {
+              "threshold": 0.4356,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.3725
+            },
+            {
+              "threshold": 0.4473,
+              "coverage": 0.6849,
+              "unsafe_auto_rate": 0.38
+            },
+            {
+              "threshold": 0.4569,
+              "coverage": 0.6712,
+              "unsafe_auto_rate": 0.3673
+            },
+            {
+              "threshold": 0.5442,
+              "coverage": 0.6575,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.5579,
+              "coverage": 0.6438,
+              "unsafe_auto_rate": 0.383
+            },
+            {
+              "threshold": 0.5596,
+              "coverage": 0.6301,
+              "unsafe_auto_rate": 0.3913
+            },
+            {
+              "threshold": 0.5702,
+              "coverage": 0.6164,
+              "unsafe_auto_rate": 0.3778
+            },
+            {
+              "threshold": 0.578,
+              "coverage": 0.6027,
+              "unsafe_auto_rate": 0.3864
+            },
+            {
+              "threshold": 0.5811,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.3953
+            },
+            {
+              "threshold": 0.5834,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.381
+            },
+            {
+              "threshold": 0.584,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.3902
+            },
+            {
+              "threshold": 0.5868,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.5877,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.3846
+            },
+            {
+              "threshold": 0.5924,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.3947
+            },
+            {
+              "threshold": 0.5983,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.4054
+            },
+            {
+              "threshold": 0.6049,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.6076,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.4412
+            },
+            {
+              "threshold": 0.6088,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.6116,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.4688
+            },
+            {
+              "threshold": 0.6138,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.4839
+            },
+            {
+              "threshold": 0.6304,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6371,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6498,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4815
+            },
+            {
+              "threshold": 0.6522,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.659,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.48
+            },
+            {
+              "threshold": 0.6655,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6677,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.4783
+            },
+            {
+              "threshold": 0.677,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.6809,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.4762
+            },
+            {
+              "threshold": 0.6819,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6886,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.5263
+            },
+            {
+              "threshold": 0.6902,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6911,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.5294
+            },
+            {
+              "threshold": 0.7095,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7113,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.719,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.724,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.7318,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7325,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.7468,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.7529,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.7567,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7622,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.7655,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7712,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.7921,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8114,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8575,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8619,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.2824,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.7921,
+            "coverage": 0.0548,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.3654
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.3654
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.3725
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1352,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 0.8493,
+          "fabricated": 0.0548,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0548,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0411,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 52,
+          "passes": 0.8269,
+          "fabricated": 0.0769,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0577,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0385,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.8269,
+          "ci95": [
+            0.7241,
+            0.9231
+          ]
+        }
+      },
+      "valid_outputs": 0.9863
+    },
+    "B0-auto-all": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.0959,
+        "macro_f1": 0.0175,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.0959,
+            "recall": 1.0,
+            "f1": 0.175,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.0959,
+          "ci95": [
+            0.0274,
+            0.1644
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.0175,
+          "ci95": [
+            0.0059,
+            0.0314
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 0,
+        "auto_sent": 73,
+        "missed_escalations": 36,
+        "must_escalate_recall": 0.0,
+        "unsafe_auto_rate": 0.4932,
+        "coverage": 1.0,
+        "escalation_precision": null,
+        "must_escalate_recall_ci": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.4932,
+          "ci95": [
+            0.3699,
+            0.6027
+          ]
+        },
+        "coverage_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        },
+        "n_both_escalated": 0,
+        "same_reason": null
+      },
+      "risk_coverage": {
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 1.0,
+              "unsafe_auto_rate": 0.4932
+            },
+            {
+              "threshold": 0.2057,
+              "coverage": 1.0,
+              "unsafe_auto_rate": 0.4932
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.2466,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 73,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "valid_outputs": 1.0
+    },
+    "B0-escalate-all": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.0959,
+        "macro_f1": 0.0175,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.0959,
+            "recall": 1.0,
+            "f1": 0.175,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              15,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.0959,
+          "ci95": [
+            0.0274,
+            0.1644
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.0175,
+          "ci95": [
+            0.0059,
+            0.0314
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 73,
+        "auto_sent": 0,
+        "missed_escalations": 0,
+        "must_escalate_recall": 1.0,
+        "unsafe_auto_rate": null,
+        "coverage": 0.0,
+        "escalation_precision": 0.4932,
+        "must_escalate_recall_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": null,
+          "ci95": null
+        },
+        "coverage_ci": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "n_both_escalated": 36,
+        "same_reason": 0.0
+      },
+      "risk_coverage": {
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.0,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 0,
+          "passes": null,
+          "fabricated": null,
+          "promises": null,
+          "commitments": null,
+          "offers": null,
+          "public_pii_request": null,
+          "claims_booking_check": null,
+          "too_long": null,
+          "empty": null
+        },
+        "auto_sent_pass_ci": {
+          "value": null,
+          "ci95": null
+        }
+      },
+      "valid_outputs": 1.0
+    },
+    "B1": {
+      "n": 73,
+      "intent": {
+        "n": 73,
+        "accuracy": 0.5753,
+        "macro_f1": 0.4989,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.6667,
+            "recall": 0.5,
+            "f1": 0.5714,
+            "support": 4
+          },
+          "baggage": {
+            "precision": 0.75,
+            "recall": 0.8571,
+            "f1": 0.8,
+            "support": 7
+          },
+          "booking_change": {
+            "precision": 0.5333,
+            "recall": 0.7273,
+            "f1": 0.6154,
+            "support": 11
+          },
+          "website_app": {
+            "precision": 0.5,
+            "recall": 0.6,
+            "f1": 0.5455,
+            "support": 5
+          },
+          "loyalty_avios": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 1
+          },
+          "refund_claim_followup": {
+            "precision": 0.8,
+            "recall": 0.8889,
+            "f1": 0.8421,
+            "support": 9
+          },
+          "contact_dm": {
+            "precision": 0.3333,
+            "recall": 0.5,
+            "f1": 0.4,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.2857,
+            "recall": 0.1667,
+            "f1": 0.2105,
+            "support": 12
+          },
+          "service_complaint": {
+            "precision": 0.2,
+            "recall": 0.2857,
+            "f1": 0.2353,
+            "support": 7
+          },
+          "other_non_actionable": {
+            "precision": 0.9091,
+            "recall": 0.6667,
+            "f1": 0.7692,
+            "support": 15
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              6,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              8,
+              1,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              8,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              2,
+              0,
+              0,
+              1,
+              1,
+              2,
+              3,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              2,
+              1,
+              10,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.5753,
+          "ci95": [
+            0.4791,
+            0.6849
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.4989,
+          "ci95": [
+            0.3913,
+            0.645
+          ]
+        }
+      },
+      "escalation": {
+        "n": 73,
+        "should_escalate": 36,
+        "escalated": 13,
+        "auto_sent": 60,
+        "missed_escalations": 26,
+        "must_escalate_recall": 0.2778,
+        "unsafe_auto_rate": 0.4333,
+        "coverage": 0.8219,
+        "escalation_precision": 0.7692,
+        "must_escalate_recall_ci": {
+          "value": 0.2778,
+          "ci95": [
+            0.1389,
+            0.4325
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.4333,
+          "ci95": [
+            0.3114,
+            0.5646
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.8219,
+          "ci95": [
+            0.726,
+            0.9041
+          ]
+        },
+        "n_both_escalated": 10,
+        "same_reason": 0.9
+      },
+      "risk_coverage": {
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.8219,
+              "unsafe_auto_rate": 0.4333
+            },
+            {
+              "threshold": 0.1687,
+              "coverage": 0.8219,
+              "unsafe_auto_rate": 0.4333
+            },
+            {
+              "threshold": 0.1811,
+              "coverage": 0.8082,
+              "unsafe_auto_rate": 0.4407
+            },
+            {
+              "threshold": 0.2008,
+              "coverage": 0.7945,
+              "unsafe_auto_rate": 0.4483
+            },
+            {
+              "threshold": 0.2162,
+              "coverage": 0.7808,
+              "unsafe_auto_rate": 0.4561
+            },
+            {
+              "threshold": 0.2262,
+              "coverage": 0.7671,
+              "unsafe_auto_rate": 0.4464
+            },
+            {
+              "threshold": 0.2484,
+              "coverage": 0.7534,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.251,
+              "coverage": 0.7397,
+              "unsafe_auto_rate": 0.463
+            },
+            {
+              "threshold": 0.2536,
+              "coverage": 0.726,
+              "unsafe_auto_rate": 0.4717
+            },
+            {
+              "threshold": 0.2681,
+              "coverage": 0.7123,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.2699,
+              "coverage": 0.6986,
+              "unsafe_auto_rate": 0.4706
+            },
+            {
+              "threshold": 0.2787,
+              "coverage": 0.6849,
+              "unsafe_auto_rate": 0.46
+            },
+            {
+              "threshold": 0.282,
+              "coverage": 0.6712,
+              "unsafe_auto_rate": 0.4694
+            },
+            {
+              "threshold": 0.2901,
+              "coverage": 0.6575,
+              "unsafe_auto_rate": 0.4792
+            },
+            {
+              "threshold": 0.2912,
+              "coverage": 0.6438,
+              "unsafe_auto_rate": 0.4681
+            },
+            {
+              "threshold": 0.3009,
+              "coverage": 0.6301,
+              "unsafe_auto_rate": 0.4783
+            },
+            {
+              "threshold": 0.3058,
+              "coverage": 0.6164,
+              "unsafe_auto_rate": 0.4667
+            },
+            {
+              "threshold": 0.308,
+              "coverage": 0.6027,
+              "unsafe_auto_rate": 0.4773
+            },
+            {
+              "threshold": 0.3089,
+              "coverage": 0.589,
+              "unsafe_auto_rate": 0.4651
+            },
+            {
+              "threshold": 0.3099,
+              "coverage": 0.5753,
+              "unsafe_auto_rate": 0.4524
+            },
+            {
+              "threshold": 0.3162,
+              "coverage": 0.5616,
+              "unsafe_auto_rate": 0.4634
+            },
+            {
+              "threshold": 0.3228,
+              "coverage": 0.5479,
+              "unsafe_auto_rate": 0.475
+            },
+            {
+              "threshold": 0.3326,
+              "coverage": 0.5342,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.3328,
+              "coverage": 0.5205,
+              "unsafe_auto_rate": 0.4474
+            },
+            {
+              "threshold": 0.3377,
+              "coverage": 0.5068,
+              "unsafe_auto_rate": 0.4595
+            },
+            {
+              "threshold": 0.3618,
+              "coverage": 0.4932,
+              "unsafe_auto_rate": 0.4722
+            },
+            {
+              "threshold": 0.396,
+              "coverage": 0.4795,
+              "unsafe_auto_rate": 0.4571
+            },
+            {
+              "threshold": 0.3985,
+              "coverage": 0.4658,
+              "unsafe_auto_rate": 0.4412
+            },
+            {
+              "threshold": 0.4022,
+              "coverage": 0.4521,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.426,
+              "coverage": 0.4384,
+              "unsafe_auto_rate": 0.4688
+            },
+            {
+              "threshold": 0.4385,
+              "coverage": 0.4247,
+              "unsafe_auto_rate": 0.4516
+            },
+            {
+              "threshold": 0.4436,
+              "coverage": 0.411,
+              "unsafe_auto_rate": 0.4667
+            },
+            {
+              "threshold": 0.4665,
+              "coverage": 0.3973,
+              "unsafe_auto_rate": 0.4483
+            },
+            {
+              "threshold": 0.4783,
+              "coverage": 0.3836,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.4805,
+              "coverage": 0.3699,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.4851,
+              "coverage": 0.3562,
+              "unsafe_auto_rate": 0.4231
+            },
+            {
+              "threshold": 0.4952,
+              "coverage": 0.3425,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.5231,
+              "coverage": 0.3288,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.5239,
+              "coverage": 0.3151,
+              "unsafe_auto_rate": 0.3913
+            },
+            {
+              "threshold": 0.5362,
+              "coverage": 0.3014,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.5817,
+              "coverage": 0.2877,
+              "unsafe_auto_rate": 0.381
+            },
+            {
+              "threshold": 0.6069,
+              "coverage": 0.274,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.6113,
+              "coverage": 0.2603,
+              "unsafe_auto_rate": 0.4211
+            },
+            {
+              "threshold": 0.6116,
+              "coverage": 0.2466,
+              "unsafe_auto_rate": 0.3889
+            },
+            {
+              "threshold": 0.6298,
+              "coverage": 0.2329,
+              "unsafe_auto_rate": 0.3529
+            },
+            {
+              "threshold": 0.6493,
+              "coverage": 0.2192,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.6507,
+              "coverage": 0.2055,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6555,
+              "coverage": 0.1918,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.6967,
+              "coverage": 0.1781,
+              "unsafe_auto_rate": 0.3077
+            },
+            {
+              "threshold": 0.711,
+              "coverage": 0.1644,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.7154,
+              "coverage": 0.1507,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.7182,
+              "coverage": 0.137,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.7316,
+              "coverage": 0.1233,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7455,
+              "coverage": 0.1096,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7707,
+              "coverage": 0.0959,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.7711,
+              "coverage": 0.0822,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7734,
+              "coverage": 0.0685,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.7867,
+              "coverage": 0.0548,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.8037,
+              "coverage": 0.0411,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.8417,
+              "coverage": 0.0274,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.9591,
+              "coverage": 0.0137,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.336,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.9591,
+            "coverage": 0.0137,
+            "unsafe_auto_rate": 0.0
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 73,
+          "passes": 0.8904,
+          "fabricated": 0.0685,
+          "promises": 0.0137,
+          "commitments": 0.0,
+          "offers": 0.0137,
+          "public_pii_request": 0.0137,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 60,
+          "passes": 0.8667,
+          "fabricated": 0.0833,
+          "promises": 0.0167,
+          "commitments": 0.0,
+          "offers": 0.0167,
+          "public_pii_request": 0.0167,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.8667,
+          "ci95": [
+            0.7778,
+            0.9474
+          ]
+        }
+      },
+      "valid_outputs": 1.0
+    }
+  }
+}

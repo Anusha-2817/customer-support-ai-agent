@@ -52,7 +52,7 @@ CASES = GOLD / "to_label.jsonl"
 TAXONOMY = GOLD / "taxonomy.json"
 PREFILL = GOLD / "prefill_from_practice.jsonl"
 MAX_RISK = 0.05
-COMPARE = [("A", "B1"), ("A", "B0-auto-all"), ("A+gate", "A")]
+COMPARE = [("A", "B1"), ("A", "B0-auto-all"), ("A+gate", "A"), ("A", "A-no-retrieval"), ("A", "A-no-guard")]
 SIGNALS = ["tfidf_support", "retrieval_top_score", "intent_confidence", "consistency"]
 SUBSETS = {"headline_uniform": ("results_headline_uniform", "Headline: 130 uniform cases"),
            "targeted": ("results_targeted", "Targeted 70 (reported separately, not part of the headline)"),

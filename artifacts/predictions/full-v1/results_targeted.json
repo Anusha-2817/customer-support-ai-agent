@@ -1,0 +1,3918 @@
+{
+  "smoke_test": false,
+  "created": "2026-09-11T00:59:16",
+  "labels_file": "D:\\Agentic_Assignment\\data\\golden\\labels_round1.jsonl",
+  "labelled": {
+    "headline_uniform": 130,
+    "targeted": 70,
+    "sensitivity_uniform_unexposed": 73
+  },
+  "run_info": {
+    "created": "2026-09-11T00:50:57",
+    "git_commit": "b42ef5d",
+    "n_cases": 200,
+    "case_set": [
+      "targeted",
+      "uniform"
+    ],
+    "systems": [
+      "B0-escalate-all",
+      "B0-auto-all",
+      "B1",
+      "A",
+      "A+gate",
+      "A-no-retrieval",
+      "A-no-guard"
+    ],
+    "seconds_per_system": {
+      "B0-escalate-all": 0.0,
+      "B0-auto-all": 0.0,
+      "B1": 0.2,
+      "A": 0.5,
+      "A+gate": 0.5,
+      "A-no-retrieval": 0.3,
+      "A-no-guard": 0.6
+    },
+    "consistency_samples": 0,
+    "mode": "offline",
+    "profile": "local",
+    "models": {
+      "embedding": {
+        "spec": "sentence-transformers:all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "available": true
+      },
+      "generator": {
+        "spec": "ollama:qwen2.5:3b",
+        "available": true
+      }
+    }
+  },
+  "subset": "targeted",
+  "systems": {
+    "A+gate": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.4429,
+        "macro_f1": 0.3011,
+        "macro_over_intents": 10,
+        "invalid_predictions": 1,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.5,
+            "recall": 0.2857,
+            "f1": 0.3636,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 0.75,
+            "recall": 0.3333,
+            "f1": 0.4615,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 0.6667,
+            "f1": 0.8,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.6842,
+            "recall": 0.7222,
+            "f1": 0.7027,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.1667,
+            "recall": 0.1667,
+            "f1": 0.1667,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.1786,
+            "recall": 0.8333,
+            "f1": 0.2941,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 1.0,
+            "recall": 0.125,
+            "f1": 0.2222,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              1,
+              1,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              6,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              13,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4429,
+          "ci95": [
+            0.3286,
+            0.5571
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.3011,
+          "ci95": [
+            0.2119,
+            0.3978
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 48,
+        "auto_sent": 22,
+        "missed_escalations": 6,
+        "must_escalate_recall": 0.8667,
+        "unsafe_auto_rate": 0.2727,
+        "coverage": 0.3143,
+        "escalation_precision": 0.8125,
+        "must_escalate_recall_ci": {
+          "value": 0.8667,
+          "ci95": [
+            0.7619,
+            0.9545
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.2727,
+          "ci95": [
+            0.0952,
+            0.4667
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.3143,
+          "ci95": [
+            0.2143,
+            0.4286
+          ]
+        },
+        "n_both_escalated": 39,
+        "same_reason": 0.5897
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.0053,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.0178,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.2381
+            },
+            {
+              "threshold": 0.0361,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.0574,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.2632
+            },
+            {
+              "threshold": 0.0754,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.2778
+            },
+            {
+              "threshold": 0.0955,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.2941
+            },
+            {
+              "threshold": 0.1051,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.3125
+            },
+            {
+              "threshold": 0.1197,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.1269,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.3571
+            },
+            {
+              "threshold": 0.202,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.3846
+            },
+            {
+              "threshold": 0.2222,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.3059,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.3449,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.3806,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.3824,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.3878,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.4193,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.5905,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.8223,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.8609,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8925,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.9285,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.079,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.8609,
+            "coverage": 0.0429,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "retrieval_top_score": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.4147,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.4634,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.5506,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.5513,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.3158
+            },
+            {
+              "threshold": 0.5529,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.2778
+            },
+            {
+              "threshold": 0.5631,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.2941
+            },
+            {
+              "threshold": 0.5931,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.3125
+            },
+            {
+              "threshold": 0.5972,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6025,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.6038,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.3077
+            },
+            {
+              "threshold": 0.6149,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6197,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.6448,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.6758,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.2222
+            },
+            {
+              "threshold": 0.6928,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.6935,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.7195,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7332,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.7423,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7459,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 0.6667
+            },
+            {
+              "threshold": 0.7853,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": 0.9119,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1202,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.0468,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 0.8286,
+          "fabricated": 0.0286,
+          "promises": 0.0,
+          "commitments": 0.0286,
+          "offers": 0.0,
+          "public_pii_request": 0.1,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0286,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 22,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "valid_outputs": 0.9857
+    },
+    "A-no-guard": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.4429,
+        "macro_f1": 0.3011,
+        "macro_over_intents": 10,
+        "invalid_predictions": 1,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.5,
+            "recall": 0.2857,
+            "f1": 0.3636,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 0.75,
+            "recall": 0.3333,
+            "f1": 0.4615,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 0.6667,
+            "f1": 0.8,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.6842,
+            "recall": 0.7222,
+            "f1": 0.7027,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.1667,
+            "recall": 0.1667,
+            "f1": 0.1667,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.1786,
+            "recall": 0.8333,
+            "f1": 0.2941,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 1.0,
+            "recall": 0.125,
+            "f1": 0.2222,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              1,
+              1,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              6,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              13,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4429,
+          "ci95": [
+            0.3286,
+            0.5571
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.3011,
+          "ci95": [
+            0.2119,
+            0.3978
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 20,
+        "auto_sent": 50,
+        "missed_escalations": 28,
+        "must_escalate_recall": 0.3778,
+        "unsafe_auto_rate": 0.56,
+        "coverage": 0.7143,
+        "escalation_precision": 0.85,
+        "must_escalate_recall_ci": {
+          "value": 0.3778,
+          "ci95": [
+            0.2443,
+            0.5333
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.56,
+          "ci95": [
+            0.4167,
+            0.6852
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.7143,
+          "ci95": [
+            0.6,
+            0.8143
+          ]
+        },
+        "n_both_escalated": 17,
+        "same_reason": 0.0
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7143,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.0053,
+              "coverage": 0.7143,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.014,
+              "coverage": 0.7,
+              "unsafe_auto_rate": 0.551
+            },
+            {
+              "threshold": 0.0178,
+              "coverage": 0.6857,
+              "unsafe_auto_rate": 0.5417
+            },
+            {
+              "threshold": 0.0246,
+              "coverage": 0.6714,
+              "unsafe_auto_rate": 0.5532
+            },
+            {
+              "threshold": 0.0361,
+              "coverage": 0.6571,
+              "unsafe_auto_rate": 0.5652
+            },
+            {
+              "threshold": 0.0535,
+              "coverage": 0.6429,
+              "unsafe_auto_rate": 0.5778
+            },
+            {
+              "threshold": 0.0536,
+              "coverage": 0.6286,
+              "unsafe_auto_rate": 0.5682
+            },
+            {
+              "threshold": 0.0559,
+              "coverage": 0.6143,
+              "unsafe_auto_rate": 0.5581
+            },
+            {
+              "threshold": 0.0574,
+              "coverage": 0.6,
+              "unsafe_auto_rate": 0.5476
+            },
+            {
+              "threshold": 0.0597,
+              "coverage": 0.5857,
+              "unsafe_auto_rate": 0.561
+            },
+            {
+              "threshold": 0.0598,
+              "coverage": 0.5714,
+              "unsafe_auto_rate": 0.55
+            },
+            {
+              "threshold": 0.0754,
+              "coverage": 0.5571,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.0955,
+              "coverage": 0.5429,
+              "unsafe_auto_rate": 0.5526
+            },
+            {
+              "threshold": 0.1051,
+              "coverage": 0.5286,
+              "unsafe_auto_rate": 0.5676
+            },
+            {
+              "threshold": 0.1143,
+              "coverage": 0.5143,
+              "unsafe_auto_rate": 0.5833
+            },
+            {
+              "threshold": 0.1197,
+              "coverage": 0.5,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.1269,
+              "coverage": 0.4857,
+              "unsafe_auto_rate": 0.5882
+            },
+            {
+              "threshold": 0.1396,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.6061
+            },
+            {
+              "threshold": 0.1471,
+              "coverage": 0.4571,
+              "unsafe_auto_rate": 0.5938
+            },
+            {
+              "threshold": 0.1609,
+              "coverage": 0.4429,
+              "unsafe_auto_rate": 0.5806
+            },
+            {
+              "threshold": 0.1676,
+              "coverage": 0.4286,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.1685,
+              "coverage": 0.4143,
+              "unsafe_auto_rate": 0.5862
+            },
+            {
+              "threshold": 0.1746,
+              "coverage": 0.4,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.1931,
+              "coverage": 0.3857,
+              "unsafe_auto_rate": 0.5556
+            },
+            {
+              "threshold": 0.1982,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.1997,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.52
+            },
+            {
+              "threshold": 0.202,
+              "coverage": 0.3429,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.2104,
+              "coverage": 0.3286,
+              "unsafe_auto_rate": 0.4783
+            },
+            {
+              "threshold": 0.214,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.2222,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.5238
+            },
+            {
+              "threshold": 0.2665,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.2682,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.4737
+            },
+            {
+              "threshold": 0.2758,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.3059,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.4118
+            },
+            {
+              "threshold": 0.3449,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.4375
+            },
+            {
+              "threshold": 0.3806,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.4667
+            },
+            {
+              "threshold": 0.3824,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.3878,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.4615
+            },
+            {
+              "threshold": 0.4032,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.4193,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.4275,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.4396,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.519,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.5905,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.6359,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7658,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.8223,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.8609,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8925,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.9285,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.3364,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.8609,
+            "coverage": 0.0429,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "retrieval_top_score": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7143,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.4147,
+              "coverage": 0.7143,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.4225,
+              "coverage": 0.7,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.4634,
+              "coverage": 0.6857,
+              "unsafe_auto_rate": 0.5625
+            },
+            {
+              "threshold": 0.4679,
+              "coverage": 0.6714,
+              "unsafe_auto_rate": 0.5745
+            },
+            {
+              "threshold": 0.505,
+              "coverage": 0.6571,
+              "unsafe_auto_rate": 0.587
+            },
+            {
+              "threshold": 0.5157,
+              "coverage": 0.6429,
+              "unsafe_auto_rate": 0.5778
+            },
+            {
+              "threshold": 0.5271,
+              "coverage": 0.6286,
+              "unsafe_auto_rate": 0.5909
+            },
+            {
+              "threshold": 0.5289,
+              "coverage": 0.6143,
+              "unsafe_auto_rate": 0.6047
+            },
+            {
+              "threshold": 0.5383,
+              "coverage": 0.6,
+              "unsafe_auto_rate": 0.5952
+            },
+            {
+              "threshold": 0.5464,
+              "coverage": 0.5857,
+              "unsafe_auto_rate": 0.5854
+            },
+            {
+              "threshold": 0.5506,
+              "coverage": 0.5714,
+              "unsafe_auto_rate": 0.575
+            },
+            {
+              "threshold": 0.5513,
+              "coverage": 0.5571,
+              "unsafe_auto_rate": 0.5897
+            },
+            {
+              "threshold": 0.5529,
+              "coverage": 0.5429,
+              "unsafe_auto_rate": 0.5789
+            },
+            {
+              "threshold": 0.5631,
+              "coverage": 0.5286,
+              "unsafe_auto_rate": 0.5946
+            },
+            {
+              "threshold": 0.5781,
+              "coverage": 0.5143,
+              "unsafe_auto_rate": 0.6111
+            },
+            {
+              "threshold": 0.5789,
+              "coverage": 0.5,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.58,
+              "coverage": 0.4857,
+              "unsafe_auto_rate": 0.5882
+            },
+            {
+              "threshold": 0.5931,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.5758
+            },
+            {
+              "threshold": 0.5972,
+              "coverage": 0.4571,
+              "unsafe_auto_rate": 0.5938
+            },
+            {
+              "threshold": 0.6021,
+              "coverage": 0.4429,
+              "unsafe_auto_rate": 0.5806
+            },
+            {
+              "threshold": 0.6025,
+              "coverage": 0.4286,
+              "unsafe_auto_rate": 0.5667
+            },
+            {
+              "threshold": 0.6038,
+              "coverage": 0.4143,
+              "unsafe_auto_rate": 0.5862
+            },
+            {
+              "threshold": 0.6058,
+              "coverage": 0.4,
+              "unsafe_auto_rate": 0.6071
+            },
+            {
+              "threshold": 0.6149,
+              "coverage": 0.3857,
+              "unsafe_auto_rate": 0.5926
+            },
+            {
+              "threshold": 0.6183,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.5769
+            },
+            {
+              "threshold": 0.6197,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.6287,
+              "coverage": 0.3429,
+              "unsafe_auto_rate": 0.5833
+            },
+            {
+              "threshold": 0.6383,
+              "coverage": 0.3286,
+              "unsafe_auto_rate": 0.5652
+            },
+            {
+              "threshold": 0.6448,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.5909
+            },
+            {
+              "threshold": 0.6482,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.6498,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.55
+            },
+            {
+              "threshold": 0.661,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.5263
+            },
+            {
+              "threshold": 0.668,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6758,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.4706
+            },
+            {
+              "threshold": 0.6801,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6928,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.5333
+            },
+            {
+              "threshold": 0.6935,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.6957,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.6154
+            },
+            {
+              "threshold": 0.7195,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.5833
+            },
+            {
+              "threshold": 0.7301,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.6364
+            },
+            {
+              "threshold": 0.7332,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.7333,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.6667
+            },
+            {
+              "threshold": 0.74,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.625
+            },
+            {
+              "threshold": 0.7423,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.7459,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.6667
+            },
+            {
+              "threshold": 0.7651,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.8
+            },
+            {
+              "threshold": 0.7681,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": 0.7828,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": 0.7853,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": 0.9119,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.4376,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.7143,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.7143,
+              "unsafe_auto_rate": 0.56
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.7,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.2081,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 0.8286,
+          "fabricated": 0.0286,
+          "promises": 0.0,
+          "commitments": 0.0286,
+          "offers": 0.0,
+          "public_pii_request": 0.1,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0286,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 50,
+          "passes": 0.8,
+          "fabricated": 0.04,
+          "promises": 0.0,
+          "commitments": 0.04,
+          "offers": 0.0,
+          "public_pii_request": 0.1,
+          "claims_booking_check": 0.0,
+          "too_long": 0.04,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.8,
+          "ci95": [
+            0.6875,
+            0.9111
+          ]
+        }
+      },
+      "valid_outputs": 0.9857
+    },
+    "A-no-retrieval": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.5,
+        "macro_f1": 0.4211,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 1.0,
+            "recall": 0.6667,
+            "f1": 0.8,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.3333,
+            "recall": 0.2857,
+            "f1": 0.3077,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 1.0,
+            "recall": 0.3333,
+            "f1": 0.5,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 0.6667,
+            "f1": 0.8,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.7222,
+            "recall": 0.7222,
+            "f1": 0.7222,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.3333,
+            "recall": 0.3333,
+            "f1": 0.3333,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.1818,
+            "recall": 0.6667,
+            "f1": 0.2857,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 0.6,
+            "recall": 0.375,
+            "f1": 0.4615,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              1,
+              1,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              6,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              13,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              1,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              4,
+              1,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.5,
+          "ci95": [
+            0.3857,
+            0.6143
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.4211,
+          "ci95": [
+            0.2905,
+            0.5414
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 37,
+        "auto_sent": 33,
+        "missed_escalations": 12,
+        "must_escalate_recall": 0.7333,
+        "unsafe_auto_rate": 0.3636,
+        "coverage": 0.4714,
+        "escalation_precision": 0.8919,
+        "must_escalate_recall_ci": {
+          "value": 0.7333,
+          "ci95": [
+            0.6042,
+            0.8572
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.3636,
+          "ci95": [
+            0.2,
+            0.5186
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.4714,
+          "ci95": [
+            0.3571,
+            0.5857
+          ]
+        },
+        "n_both_escalated": 33,
+        "same_reason": 0.6364
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.0178,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.0407,
+              "coverage": 0.4571,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.0536,
+              "coverage": 0.4429,
+              "unsafe_auto_rate": 0.3548
+            },
+            {
+              "threshold": 0.057,
+              "coverage": 0.4286,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.0574,
+              "coverage": 0.4143,
+              "unsafe_auto_rate": 0.3103
+            },
+            {
+              "threshold": 0.0674,
+              "coverage": 0.4,
+              "unsafe_auto_rate": 0.3214
+            },
+            {
+              "threshold": 0.0754,
+              "coverage": 0.3857,
+              "unsafe_auto_rate": 0.2963
+            },
+            {
+              "threshold": 0.1051,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.3077
+            },
+            {
+              "threshold": 0.114,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.32
+            },
+            {
+              "threshold": 0.1145,
+              "coverage": 0.3429,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.1197,
+              "coverage": 0.3286,
+              "unsafe_auto_rate": 0.3478
+            },
+            {
+              "threshold": 0.1205,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.1269,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.381
+            },
+            {
+              "threshold": 0.1609,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.1636,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.4211
+            },
+            {
+              "threshold": 0.1874,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.202,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.4118
+            },
+            {
+              "threshold": 0.2104,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.2222,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.298,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.3571
+            },
+            {
+              "threshold": 0.3059,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.3846
+            },
+            {
+              "threshold": 0.3449,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.3824,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.3878,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.4193,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.4444
+            },
+            {
+              "threshold": 0.6359,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7035,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.7789,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7979,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.8223,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.8609,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8925,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.9285,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1532,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.8609,
+            "coverage": 0.0429,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.3636
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.4429,
+              "unsafe_auto_rate": 0.3226
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.0812,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 0.6714,
+          "fabricated": 0.0714,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0143,
+          "public_pii_request": 0.2286,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0714,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 33,
+          "passes": 0.6364,
+          "fabricated": 0.0303,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0303,
+          "public_pii_request": 0.2121,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0909,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.6364,
+          "ci95": [
+            0.475,
+            0.8
+          ]
+        }
+      },
+      "valid_outputs": 1.0
+    },
+    "A": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.4429,
+        "macro_f1": 0.3011,
+        "macro_over_intents": 10,
+        "invalid_predictions": 1,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.5,
+            "recall": 0.2857,
+            "f1": 0.3636,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 0.75,
+            "recall": 0.3333,
+            "f1": 0.4615,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 0.6667,
+            "f1": 0.8,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.6842,
+            "recall": 0.7222,
+            "f1": 0.7027,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.1667,
+            "recall": 0.1667,
+            "f1": 0.1667,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.1786,
+            "recall": 0.8333,
+            "f1": 0.2941,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 1.0,
+            "recall": 0.125,
+            "f1": 0.2222,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0,
+              0,
+              1,
+              1,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              6,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              13,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.4429,
+          "ci95": [
+            0.3286,
+            0.5571
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.3011,
+          "ci95": [
+            0.2119,
+            0.3978
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 44,
+        "auto_sent": 26,
+        "missed_escalations": 7,
+        "must_escalate_recall": 0.8444,
+        "unsafe_auto_rate": 0.2692,
+        "coverage": 0.3714,
+        "escalation_precision": 0.8636,
+        "must_escalate_recall_ci": {
+          "value": 0.8444,
+          "ci95": [
+            0.725,
+            0.9375
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.2692,
+          "ci95": [
+            0.1071,
+            0.4376
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.3714,
+          "ci95": [
+            0.2714,
+            0.4857
+          ]
+        },
+        "n_both_escalated": 38,
+        "same_reason": 0.6053
+      },
+      "risk_coverage": {
+        "tfidf_support": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.2692
+            },
+            {
+              "threshold": 0.0053,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.2692
+            },
+            {
+              "threshold": 0.0178,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.24
+            },
+            {
+              "threshold": 0.0361,
+              "coverage": 0.3429,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.0536,
+              "coverage": 0.3286,
+              "unsafe_auto_rate": 0.2609
+            },
+            {
+              "threshold": 0.0574,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.2273
+            },
+            {
+              "threshold": 0.0754,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.2381
+            },
+            {
+              "threshold": 0.0955,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.1051,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.2632
+            },
+            {
+              "threshold": 0.1197,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.2778
+            },
+            {
+              "threshold": 0.1269,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.2941
+            },
+            {
+              "threshold": 0.1609,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.3125
+            },
+            {
+              "threshold": 0.202,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.2104,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.2222,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.3077
+            },
+            {
+              "threshold": 0.3059,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.3449,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.3806,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.3824,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.3878,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.4193,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.2857
+            },
+            {
+              "threshold": 0.5905,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.1667
+            },
+            {
+              "threshold": 0.6359,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.2
+            },
+            {
+              "threshold": 0.8223,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.25
+            },
+            {
+              "threshold": 0.8609,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.8925,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.9285,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.0855,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.8609,
+            "coverage": 0.0429,
+            "unsafe_auto_rate": 0.0
+          }
+        },
+        "retrieval_top_score": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.2692
+            },
+            {
+              "threshold": 0.4147,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.2692
+            },
+            {
+              "threshold": 0.4634,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.28
+            },
+            {
+              "threshold": 0.4679,
+              "coverage": 0.3429,
+              "unsafe_auto_rate": 0.2917
+            },
+            {
+              "threshold": 0.5157,
+              "coverage": 0.3286,
+              "unsafe_auto_rate": 0.3043
+            },
+            {
+              "threshold": 0.5506,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.3182
+            },
+            {
+              "threshold": 0.5513,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.5529,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.5631,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.3158
+            },
+            {
+              "threshold": 0.5931,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.5972,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.3529
+            },
+            {
+              "threshold": 0.6025,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.3125
+            },
+            {
+              "threshold": 0.6038,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6149,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.3571
+            },
+            {
+              "threshold": 0.6197,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.3077
+            },
+            {
+              "threshold": 0.6448,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.6758,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.2727
+            },
+            {
+              "threshold": 0.6928,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.3
+            },
+            {
+              "threshold": 0.6935,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.7195,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.375
+            },
+            {
+              "threshold": 0.7332,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.4286
+            },
+            {
+              "threshold": 0.7423,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.7459,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.7651,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.75
+            },
+            {
+              "threshold": 0.7681,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": 0.7853,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": 0.9119,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 1.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.1595,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        },
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.2692
+            },
+            {
+              "threshold": 0.95,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.2692
+            },
+            {
+              "threshold": 1.0,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.28
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.0539,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 0.8286,
+          "fabricated": 0.0286,
+          "promises": 0.0,
+          "commitments": 0.0286,
+          "offers": 0.0,
+          "public_pii_request": 0.1,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0286,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 26,
+          "passes": 0.8462,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0385,
+          "offers": 0.0,
+          "public_pii_request": 0.0769,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0385,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.8462,
+          "ci95": [
+            0.7082,
+            0.9655
+          ]
+        }
+      },
+      "valid_outputs": 0.9857
+    },
+    "B0-auto-all": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.0857,
+        "macro_f1": 0.0158,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.0857,
+            "recall": 1.0,
+            "f1": 0.1579,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              18,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.0857,
+          "ci95": [
+            0.0286,
+            0.1571
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.0158,
+          "ci95": [
+            0.0056,
+            0.0278
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 0,
+        "auto_sent": 70,
+        "missed_escalations": 45,
+        "must_escalate_recall": 0.0,
+        "unsafe_auto_rate": 0.6429,
+        "coverage": 1.0,
+        "escalation_precision": null,
+        "must_escalate_recall_ci": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.6429,
+          "ci95": [
+            0.5286,
+            0.7571
+          ]
+        },
+        "coverage_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        },
+        "n_both_escalated": 0,
+        "same_reason": null
+      },
+      "risk_coverage": {
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 1.0,
+              "unsafe_auto_rate": 0.6429
+            },
+            {
+              "threshold": 0.2057,
+              "coverage": 1.0,
+              "unsafe_auto_rate": 0.6429
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.3215,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 70,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "valid_outputs": 1.0
+    },
+    "B0-escalate-all": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.0857,
+        "macro_f1": 0.0158,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.0857,
+            "recall": 1.0,
+            "f1": 0.1579,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              9,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              18,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              8,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.0857,
+          "ci95": [
+            0.0286,
+            0.1571
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.0158,
+          "ci95": [
+            0.0056,
+            0.0278
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 70,
+        "auto_sent": 0,
+        "missed_escalations": 0,
+        "must_escalate_recall": 1.0,
+        "unsafe_auto_rate": null,
+        "coverage": 0.0,
+        "escalation_precision": 0.6429,
+        "must_escalate_recall_ci": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": null,
+          "ci95": null
+        },
+        "coverage_ci": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "n_both_escalated": 45,
+        "same_reason": 0.0
+      },
+      "risk_coverage": {
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.0,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": "all_escalated",
+            "coverage": 0.0,
+            "unsafe_auto_rate": null
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 1.0,
+          "fabricated": 0.0,
+          "promises": 0.0,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 0,
+          "passes": null,
+          "fabricated": null,
+          "promises": null,
+          "commitments": null,
+          "offers": null,
+          "public_pii_request": null,
+          "claims_booking_check": null,
+          "too_long": null,
+          "empty": null
+        },
+        "auto_sent_pass_ci": {
+          "value": null,
+          "ci95": null
+        }
+      },
+      "valid_outputs": 1.0
+    },
+    "B1": {
+      "n": 70,
+      "intent": {
+        "n": 70,
+        "accuracy": 0.3857,
+        "macro_f1": 0.3472,
+        "macro_over_intents": 10,
+        "invalid_predictions": 0,
+        "per_intent": {
+          "flight_disruption": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "baggage": {
+            "precision": 0.6667,
+            "recall": 0.6667,
+            "f1": 0.6667,
+            "support": 3
+          },
+          "booking_change": {
+            "precision": 0.0909,
+            "recall": 0.1429,
+            "f1": 0.1111,
+            "support": 7
+          },
+          "website_app": {
+            "precision": 0.75,
+            "recall": 0.6667,
+            "f1": 0.7059,
+            "support": 9
+          },
+          "loyalty_avios": {
+            "precision": 1.0,
+            "recall": 0.4444,
+            "f1": 0.6154,
+            "support": 9
+          },
+          "refund_claim_followup": {
+            "precision": 0.3889,
+            "recall": 0.3889,
+            "f1": 0.3889,
+            "support": 18
+          },
+          "contact_dm": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 2
+          },
+          "travel_info": {
+            "precision": 0.3333,
+            "recall": 0.1667,
+            "f1": 0.2222,
+            "support": 6
+          },
+          "service_complaint": {
+            "precision": 0.25,
+            "recall": 0.5,
+            "f1": 0.3333,
+            "support": 6
+          },
+          "other_non_actionable": {
+            "precision": 0.5,
+            "recall": 0.375,
+            "f1": 0.4286,
+            "support": 8
+          }
+        },
+        "confusion": {
+          "rows_gold_cols_pred": [
+            "flight_disruption",
+            "baggage",
+            "booking_change",
+            "website_app",
+            "loyalty_avios",
+            "refund_claim_followup",
+            "contact_dm",
+            "travel_info",
+            "service_complaint",
+            "other_non_actionable",
+            "__invalid__"
+          ],
+          "matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              1,
+              0,
+              2,
+              1,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              6,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              4,
+              3,
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              5,
+              0,
+              0,
+              7,
+              2,
+              0,
+              2,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              2,
+              1,
+              0,
+              0,
+              1,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              2,
+              0,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              1,
+              3,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "accuracy_ci": {
+          "value": 0.3857,
+          "ci95": [
+            0.2714,
+            0.5
+          ]
+        },
+        "macro_f1_ci": {
+          "value": 0.3472,
+          "ci95": [
+            0.2366,
+            0.4576
+          ]
+        }
+      },
+      "escalation": {
+        "n": 70,
+        "should_escalate": 45,
+        "escalated": 35,
+        "auto_sent": 35,
+        "missed_escalations": 14,
+        "must_escalate_recall": 0.6889,
+        "unsafe_auto_rate": 0.4,
+        "coverage": 0.5,
+        "escalation_precision": 0.8857,
+        "must_escalate_recall_ci": {
+          "value": 0.6889,
+          "ci95": [
+            0.5475,
+            0.8182
+          ]
+        },
+        "unsafe_auto_rate_ci": {
+          "value": 0.4,
+          "ci95": [
+            0.2352,
+            0.5527
+          ]
+        },
+        "coverage_ci": {
+          "value": 0.5,
+          "ci95": [
+            0.3857,
+            0.6143
+          ]
+        },
+        "n_both_escalated": 31,
+        "same_reason": 0.7419
+      },
+      "risk_coverage": {
+        "intent_confidence": {
+          "points": [
+            {
+              "threshold": null,
+              "coverage": 0.5,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.1459,
+              "coverage": 0.5,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.1727,
+              "coverage": 0.4857,
+              "unsafe_auto_rate": 0.4118
+            },
+            {
+              "threshold": 0.1819,
+              "coverage": 0.4714,
+              "unsafe_auto_rate": 0.3939
+            },
+            {
+              "threshold": 0.1974,
+              "coverage": 0.4571,
+              "unsafe_auto_rate": 0.4062
+            },
+            {
+              "threshold": 0.202,
+              "coverage": 0.4429,
+              "unsafe_auto_rate": 0.4194
+            },
+            {
+              "threshold": 0.2104,
+              "coverage": 0.4286,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.214,
+              "coverage": 0.4143,
+              "unsafe_auto_rate": 0.4138
+            },
+            {
+              "threshold": 0.2222,
+              "coverage": 0.4,
+              "unsafe_auto_rate": 0.3929
+            },
+            {
+              "threshold": 0.2322,
+              "coverage": 0.3857,
+              "unsafe_auto_rate": 0.3704
+            },
+            {
+              "threshold": 0.2867,
+              "coverage": 0.3714,
+              "unsafe_auto_rate": 0.3846
+            },
+            {
+              "threshold": 0.2998,
+              "coverage": 0.3571,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.3059,
+              "coverage": 0.3429,
+              "unsafe_auto_rate": 0.4167
+            },
+            {
+              "threshold": 0.3249,
+              "coverage": 0.3286,
+              "unsafe_auto_rate": 0.4348
+            },
+            {
+              "threshold": 0.3449,
+              "coverage": 0.3143,
+              "unsafe_auto_rate": 0.4545
+            },
+            {
+              "threshold": 0.3452,
+              "coverage": 0.3,
+              "unsafe_auto_rate": 0.4762
+            },
+            {
+              "threshold": 0.3501,
+              "coverage": 0.2857,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.3806,
+              "coverage": 0.2714,
+              "unsafe_auto_rate": 0.4737
+            },
+            {
+              "threshold": 0.3824,
+              "coverage": 0.2571,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.3878,
+              "coverage": 0.2429,
+              "unsafe_auto_rate": 0.4706
+            },
+            {
+              "threshold": 0.4193,
+              "coverage": 0.2286,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.5254,
+              "coverage": 0.2143,
+              "unsafe_auto_rate": 0.4667
+            },
+            {
+              "threshold": 0.5327,
+              "coverage": 0.2,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.5629,
+              "coverage": 0.1857,
+              "unsafe_auto_rate": 0.5385
+            },
+            {
+              "threshold": 0.5905,
+              "coverage": 0.1714,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.6359,
+              "coverage": 0.1571,
+              "unsafe_auto_rate": 0.5455
+            },
+            {
+              "threshold": 0.7035,
+              "coverage": 0.1429,
+              "unsafe_auto_rate": 0.6
+            },
+            {
+              "threshold": 0.7789,
+              "coverage": 0.1286,
+              "unsafe_auto_rate": 0.5556
+            },
+            {
+              "threshold": 0.7979,
+              "coverage": 0.1143,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.8022,
+              "coverage": 0.1,
+              "unsafe_auto_rate": 0.5714
+            },
+            {
+              "threshold": 0.8223,
+              "coverage": 0.0857,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.8609,
+              "coverage": 0.0714,
+              "unsafe_auto_rate": 0.4
+            },
+            {
+              "threshold": 0.8742,
+              "coverage": 0.0571,
+              "unsafe_auto_rate": 0.5
+            },
+            {
+              "threshold": 0.8748,
+              "coverage": 0.0429,
+              "unsafe_auto_rate": 0.3333
+            },
+            {
+              "threshold": 0.8925,
+              "coverage": 0.0286,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": 0.9285,
+              "coverage": 0.0143,
+              "unsafe_auto_rate": 0.0
+            },
+            {
+              "threshold": "all_escalated",
+              "coverage": 0.0,
+              "unsafe_auto_rate": null
+            }
+          ],
+          "aurc": 0.2133,
+          "best_under_bar": {
+            "max_risk": 0.05,
+            "threshold": 0.8925,
+            "coverage": 0.0286,
+            "unsafe_auto_rate": 0.0
+          }
+        }
+      },
+      "reply_checks": {
+        "all_replies": {
+          "n": 70,
+          "passes": 0.9143,
+          "fabricated": 0.0571,
+          "promises": 0.0143,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0143,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_only": {
+          "n": 35,
+          "passes": 0.9143,
+          "fabricated": 0.0286,
+          "promises": 0.0286,
+          "commitments": 0.0,
+          "offers": 0.0,
+          "public_pii_request": 0.0286,
+          "claims_booking_check": 0.0,
+          "too_long": 0.0,
+          "empty": 0.0
+        },
+        "auto_sent_pass_ci": {
+          "value": 0.9143,
+          "ci95": [
+            0.8182,
+            1.0
+          ]
+        }
+      },
+      "valid_outputs": 1.0
+    }
+  }
+}

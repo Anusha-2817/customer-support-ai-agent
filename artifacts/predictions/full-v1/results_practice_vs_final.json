@@ -1,0 +1,79 @@
+{
+  "smoke_test": false,
+  "created": "2026-09-11T00:59:16",
+  "labels_file": "D:\\Agentic_Assignment\\data\\golden\\labels_round1.jsonl",
+  "labelled": {
+    "headline_uniform": 130,
+    "targeted": 70,
+    "sensitivity_uniform_unexposed": 73
+  },
+  "run_info": {
+    "created": "2026-09-11T00:50:57",
+    "git_commit": "b42ef5d",
+    "n_cases": 200,
+    "case_set": [
+      "targeted",
+      "uniform"
+    ],
+    "systems": [
+      "B0-escalate-all",
+      "B0-auto-all",
+      "B1",
+      "A",
+      "A+gate",
+      "A-no-retrieval",
+      "A-no-guard"
+    ],
+    "seconds_per_system": {
+      "B0-escalate-all": 0.0,
+      "B0-auto-all": 0.0,
+      "B1": 0.2,
+      "A": 0.5,
+      "A+gate": 0.5,
+      "A-no-retrieval": 0.3,
+      "A-no-guard": 0.6
+    },
+    "consistency_samples": 0,
+    "mode": "offline",
+    "profile": "local",
+    "models": {
+      "embedding": {
+        "spec": "sentence-transformers:all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "available": true
+      },
+      "generator": {
+        "spec": "ollama:qwen2.5:3b",
+        "available": true
+      }
+    }
+  },
+  "secondary_practice_vs_final": {
+    "n_with_preset_escalation": 53,
+    "escalation_agreement": 0.9623,
+    "escalation_kappa": 0.9246,
+    "prefilled_labels_saved": 57,
+    "changed_any_prefilled_field": 8,
+    "per_field": {
+      "ba_reply_ok": {
+        "pre_set": 53,
+        "changed": 3
+      },
+      "escalate": {
+        "pre_set": 53,
+        "changed": 2
+      },
+      "intent": {
+        "pre_set": 45,
+        "changed": 3
+      },
+      "note": {
+        "pre_set": 15,
+        "changed": 1
+      },
+      "reason": {
+        "pre_set": 25,
+        "changed": 1
+      }
+    }
+  }
+}

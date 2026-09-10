@@ -1,0 +1,28 @@
+{
+  "created": "2026-09-11T00:49:29",
+  "git_commit": "b829fe6",
+  "n_cases": 200,
+  "case_set": [
+    "targeted",
+    "uniform"
+  ],
+  "systems": [
+    "A-no-retrieval"
+  ],
+  "seconds_per_system": {
+    "A-no-retrieval": 1842.4
+  },
+  "consistency_samples": 0,
+  "mode": "local",
+  "profile": "local",
+  "models": {
+    "embedding": {
+      "spec": "sentence-transformers:all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "available": true
+    },
+    "generator": {
+      "spec": "ollama:qwen2.5:3b",
+      "available": true
+    }
+  }
+}

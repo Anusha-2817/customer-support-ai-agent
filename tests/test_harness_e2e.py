@@ -149,7 +149,10 @@ try:
           "A auto-sends drafts that fail the checks; A+gate's auto-sent drafts pass them (by construction)")
     rc = {s: hl[s]["reply_checks"]["all_replies"] for s in hl}
     check(rc["B1"]["fabricated"] > 0, f"verbatim B1 replies carry invented specifics ({rc['B1']['fabricated']:.0%})")
-    check(set(res["comparisons_headline"]) == {"A vs B1", "A vs B0-auto-all", "A+gate vs A"}, "paired comparisons on the headline set")
+    pairs = [("A", "B1"), ("A", "B0-auto-all"), ("A+gate", "A"), ("A", "A-no-retrieval"), ("A", "A-no-guard")]
+    expected = {f"{a} vs {b}" for a, b in pairs if a in hl and b in hl}
+    check(len(expected) >= 3 and set(res["comparisons_headline"]) == expected,
+          f"paired comparisons on the headline set ({len(expected)}: baselines, gate and ablations)")
     sec = res["secondary_practice_vs_final"]
     check(sec["n_with_preset_escalation"] == 57 and sec["prefilled_labels_saved"] == 57 and "escalate" in sec["per_field"],
           "practice-vs-final agreement reported as a secondary analysis, with per-field change counts")
