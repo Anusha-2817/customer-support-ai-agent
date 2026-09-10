@@ -1,0 +1,224 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Golden set labeller</title>
+<style>
+  :root { --ink:#1f2328; --muted:#636c76; --line:#d0d7de; --bg:#f6f8fa; --accent:#1f4fb8; --warn:#b3261e; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  header { display:flex; gap:18px; align-items:center; padding:10px 22px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:2; }
+  header b { font-weight:600; }
+  .bar { flex:1; height:6px; background:#eaeef2; border-radius:3px; overflow:hidden; }
+  .bar div { height:100%; background:var(--accent); width:0; }
+  main { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:20px; padding:20px 22px; max-width:1360px; margin:auto; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:16px; }
+  h3 { margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:600; }
+  .turn { padding:8px 11px; border-radius:8px; margin:6px 0; font-size:14px; }
+  .turn.customer { background:#eef4ff; } .turn.brand { background:#f4f1ea; }
+  .turn small { display:block; color:var(--muted); font-size:11px; text-transform:uppercase; }
+  .msg { font-size:18px; line-height:1.55; padding:14px 16px; border-left:4px solid var(--accent); background:#f7f9ff; border-radius:0; white-space:pre-wrap; }
+  .opt { display:flex; gap:10px; align-items:flex-start; width:100%; text-align:left; padding:7px 10px; margin:5px 0; border:1px solid var(--line); border-radius:7px; background:#fff; cursor:pointer; font:inherit; font-size:14px; }
+  .opt:hover { border-color:#8c959f; }
+  .opt.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .opt.on .def { color:#dbe4ff; }
+  .opt .def { display:block; font-size:12px; color:var(--muted); }
+  kbd { font:11px ui-monospace,monospace; border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:0 5px; background:#f6f8fa; color:var(--ink); flex:none; margin-top:2px; }
+  .row { display:flex; gap:8px; } .row .opt { flex:1; }
+  .locked { opacity:.45; pointer-events:none; }
+  .reply { font-size:15px; padding:12px 14px; background:#f4f1ea; border-radius:8px; white-space:pre-wrap; }
+  textarea { width:100%; min-height:54px; font:inherit; font-size:14px; padding:8px; border:1px solid var(--line); border-radius:7px; }
+  .actions { display:flex; gap:10px; align-items:center; }
+  button.primary { background:var(--accent); color:#fff; border:0; border-radius:7px; padding:9px 18px; font:inherit; font-weight:600; cursor:pointer; }
+  button.ghost { background:#fff; border:1px solid var(--line); border-radius:7px; padding:9px 14px; font:inherit; cursor:pointer; }
+  #err { color:var(--warn); font-size:13px; }
+  .muted { color:var(--muted); font-size:13px; }
+  .done { max-width:640px; margin:80px auto; text-align:center; }
+  #mode { background:#fff4ce; color:#6b4e00; border-bottom:1px solid #e8d48a; padding:8px 22px; font-size:14px; font-weight:600; }
+  code { font:13px ui-monospace,monospace; background:#eaeef2; padding:1px 5px; border-radius:4px; }
+  @media (max-width: 900px) {
+    main { grid-template-columns:1fr; padding:14px; }
+    header { flex-wrap:wrap; gap:8px 14px; }
+    .bar { flex-basis:100%; order:3; }
+  }
+</style>
+
+<header>
+  <b>Golden set labeller</b>
+  <span id="count" class="muted"></span>
+  <div class="bar"><div id="fill"></div></div>
+  <span id="timer" class="muted"></span>
+</header>
+<div id="mode" hidden></div>
+
+<main id="app">
+  <section>
+    <div class="card" id="ctxCard"><h3>Earlier in the thread</h3><div id="ctx"></div></div>
+    <div class="card"><h3>Customer message</h3><div class="msg" id="msg"></div></div>
+    <div class="card" id="replyCard">
+      <h3>British Airways' actual reply</h3>
+      <div id="replyHidden" class="muted">Hidden until intent and escalation are set.</div>
+      <div id="replyBox" hidden>
+        <div class="reply" id="reply"></div>
+        <p class="muted" style="margin:12px 0 6px">Would this reply be acceptable to post as-is?</p>
+        <div class="row" id="baok"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card"><h3>1 · Intent: what does the customer want BA to do?</h3><div id="intents"></div></div>
+    <div class="card">
+      <h3>2 · Must a human review before anything is posted?</h3>
+      <div class="row" id="esc"></div>
+      <div id="reasonWrap" hidden><p class="muted" style="margin:10px 0 4px">Reason</p><div id="reasons"></div></div>
+    </div>
+    <div class="card">
+      <h3>3 · Notes</h3>
+      <button class="opt" id="amb"><kbd>M</kbd><span>Ambiguous: reasonable labellers could disagree</span></button>
+      <textarea id="note" placeholder="Optional: why it's ambiguous, or anything odd (Ctrl+Enter saves)"></textarea>
+    </div>
+    <div class="actions">
+      <button class="ghost" id="prev">&larr; Prev <kbd>[</kbd></button>
+      <button class="primary" id="save">Save &amp; next <kbd style="background:#fff">Enter</kbd></button>
+      <button class="ghost" id="next">Skip <kbd>]</kbd></button>
+      <span id="err"></span>
+    </div>
+  </section>
+</main>
+
+<script>
+const INTENT_KEYS = "1234567890-=".split("");
+let S = null, idx = 0, cur = null, t0 = 0, saving = false;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function blank() { return { intent:null, escalate:null, reason:null, ba_reply_ok:null, ambiguous:false, note:"" }; }
+
+async function load() {
+  try {
+    const r = await fetch("/api/state");
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    S = await r.json();
+  } catch (e) {
+    $("app").innerHTML = `<div class="done card"><h2>Can't reach the labelling server</h2><p class="muted">From the project folder run <code>python tools/label_server.py</code>, then open <b>http://localhost:8765</b>. Opening label.html directly as a file won't work.</p></div>`;
+    return;
+  }
+  if (S.practice) { $("mode").hidden = false; $("mode").textContent = "PRACTICE MODE: placeholder intents, labels go to a scratch file. Nothing here is part of the golden set."; }
+  const first = S.items.findIndex(it => !S.labels[it.case_id]);
+  idx = first === -1 ? S.items.length : first;
+  buildStatic();
+  render();
+  setInterval(() => { if (cur) $("timer").textContent = Math.round((Date.now()-t0)/1000) + "s on this item"; }, 1000);
+}
+
+function buildStatic() {
+  $("intents").innerHTML = S.taxonomy.intents.map((it, i) =>
+    `<button class="opt" data-intent="${it.id}"><kbd>${INTENT_KEYS[i] ?? ""}</kbd><span>${esc(it.name)}<span class="def">${esc(it.definition)}</span></span></button>`).join("");
+  $("esc").innerHTML =
+    `<button class="opt" data-esc="0"><kbd>A</kbd><span>Auto-handle<span class="def">Safe to post without review</span></span></button>` +
+    `<button class="opt" data-esc="1"><kbd>E</kbd><span>Escalate<span class="def">A human must review first</span></span></button>`;
+  $("reasons").innerHTML = S.taxonomy.escalation_reasons.map((r, i) =>
+    `<button class="opt" data-reason="${r.id}"><kbd>${i < 9 ? "&#8679;" + (i + 1) : ""}</kbd><span>${esc(r.name)}<span class="def">${esc(r.definition)}</span></span></button>`).join("");
+  $("baok").innerHTML = [["yes","Y","Yes"],["no","N","No"],["unsure","U","Unsure"]].map(([v,k,l]) =>
+    `<button class="opt" data-ok="${v}"><kbd>${k}</kbd><span>${l}</span></button>`).join("");
+
+  document.querySelectorAll("[data-intent]").forEach(b => b.onclick = () => set("intent", b.dataset.intent));
+  document.querySelectorAll("[data-esc]").forEach(b => b.onclick = () => set("escalate", b.dataset.esc === "1"));
+  document.querySelectorAll("[data-reason]").forEach(b => b.onclick = () => set("reason", b.dataset.reason));
+  document.querySelectorAll("[data-ok]").forEach(b => b.onclick = () => set("ba_reply_ok", b.dataset.ok));
+  $("amb").onclick = () => set("ambiguous", !cur.ambiguous);
+  $("note").oninput = e => { cur.note = e.target.value; };
+  $("save").onclick = save; $("prev").onclick = () => go(idx-1); $("next").onclick = () => go(idx+1);
+}
+
+function render() {
+  const n = S.items.length, done = Object.keys(S.labels).length;
+  $("count").textContent = `${done} / ${n} labelled · item ${Math.min(idx+1, n)} · saving to ${S.out}`;
+  $("fill").style.width = (100*done/n) + "%";
+  if (idx >= n) {
+    $("app").innerHTML = `<div class="done card"><h2>All ${n} items labelled</h2><p class="muted">Labels are in data/golden/${esc(S.out)}. Reload to revisit any item.</p></div>`;
+    cur = null; return;
+  }
+  const it = S.items[idx];
+  const prev = S.labels[it.case_id];
+  cur = prev ? { intent:prev.intent, escalate:prev.escalate, reason:prev.reason, ba_reply_ok:prev.ba_reply_ok, ambiguous:!!prev.ambiguous, note:prev.note||"" } : blank();
+  t0 = Date.now();
+  $("ctxCard").hidden = !it.context.length;
+  $("ctx").innerHTML = it.context.map(t => `<div class="turn ${t.role}"><small>${t.role === "brand" ? "British Airways" : "Customer"}</small>${esc(t.text)}</div>`).join("");
+  $("msg").textContent = it.customer_msg;
+  $("reply").textContent = it.brand_reply;
+  $("note").value = cur.note;
+  $("err").textContent = "";
+  paint();
+}
+
+function set(k, v) { cur[k] = v; if (k === "escalate" && !v) cur.reason = null; $("err").textContent = ""; paint(); }
+
+function paint() {
+  document.querySelectorAll("[data-intent]").forEach(b => b.classList.toggle("on", b.dataset.intent === cur.intent));
+  document.querySelectorAll("[data-esc]").forEach(b => b.classList.toggle("on", cur.escalate !== null && (b.dataset.esc === "1") === cur.escalate));
+  document.querySelectorAll("[data-reason]").forEach(b => b.classList.toggle("on", b.dataset.reason === cur.reason));
+  document.querySelectorAll("[data-ok]").forEach(b => b.classList.toggle("on", b.dataset.ok === cur.ba_reply_ok));
+  $("amb").classList.toggle("on", cur.ambiguous);
+  $("reasonWrap").hidden = cur.escalate !== true;
+  // staged reveal: BA's real reply appears only once the blind judgements are made
+  const ready = cur.intent && cur.escalate !== null && (cur.escalate === false || cur.reason);
+  $("replyHidden").hidden = !!ready; $("replyBox").hidden = !ready;
+}
+
+async function save() {
+  if (saving) return;               // one request at a time: no double submits
+  saving = true;
+  $("err").textContent = "Saving...";  // instant feedback; a dead server takes ~2 s to fail on Windows
+  try { await saveOnce(); } finally { saving = false; }
+}
+
+async function saveOnce() {
+  const it = S.items[idx];
+  const rec = { case_id: it.case_id, ...cur, seconds: Math.round((Date.now()-t0)/1000) };
+  let r, j;
+  try {
+    r = await fetch("/api/label", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(rec) });
+    j = await r.json();
+  } catch (e) {
+    $("err").textContent = "NOT SAVED: can't reach the labelling server. Restart it; your choices on this item are still here.";
+    return;
+  }
+  if (!r.ok) { $("err").textContent = j.error; return; }
+  S.labels[it.case_id] = rec;
+  const nextOpen = S.items.findIndex((x, i) => i > idx && !S.labels[x.case_id]);
+  go(nextOpen === -1 ? S.items.findIndex(x => !S.labels[x.case_id]) === -1 ? S.items.length : S.items.findIndex(x => !S.labels[x.case_id]) : nextOpen);
+}
+
+function go(i) { if (i < 0 || i > S.items.length) return; idx = i; render(); }
+
+document.addEventListener("keydown", e => {
+  if (!cur) return;
+  if (e.target.tagName === "TEXTAREA") { if (e.key === "Enter" && e.ctrlKey) { e.preventDefault(); save(); } return; }
+  const k = e.key.toLowerCase();
+  // Reasons are Shift+1..9, matched on the physical key (e.code) so they work on any
+  // keyboard layout. Letter shortcuts used to collide: with 6+ reasons, N ("BA reply: No")
+  // and M ("Ambiguous") silently picked reasons instead.
+  // The digit comes from the physical key when the browser reports it (e.code "Digit5");
+  // some input paths leave e.code empty and send e.key "5" with Shift held instead.
+  const digit = (/^Digit([1-9])$/.exec(e.code) || [])[1] || (/^[1-9]$/.test(e.key) ? e.key : null);
+  if (e.shiftKey && digit) {
+    const ri = Number(digit) - 1;
+    if (cur.escalate && ri < S.taxonomy.escalation_reasons.length) set("reason", S.taxonomy.escalation_reasons[ri].id);
+    return;
+  }
+  // Digits without Shift pick the intent. Checked after the Shift branch: depending on
+  // layout and input method, Shift+5 can arrive as "5" rather than "%".
+  const ii = e.shiftKey ? -1 : INTENT_KEYS.indexOf(e.key);
+  if (ii !== -1 && ii < S.taxonomy.intents.length) return set("intent", S.taxonomy.intents[ii].id);
+  if (k === "a") return set("escalate", false);
+  if (k === "e") return set("escalate", true);
+  if (k === "m") return set("ambiguous", !cur.ambiguous);
+  if (!$("replyBox").hidden && ({y:"yes", n:"no", u:"unsure"})[k]) return set("ba_reply_ok", ({y:"yes", n:"no", u:"unsure"})[k]);
+  if (e.key === "Enter") { e.preventDefault(); return save(); }
+  if (e.key === "[") return go(idx-1);
+  if (e.key === "]") return go(idx+1);
+});
+
+load();
+</script>
