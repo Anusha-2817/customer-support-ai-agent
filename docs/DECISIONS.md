@@ -166,3 +166,13 @@ The final report keeps the 10–15 most consequential. Format: **decision**, the
     so the agent's prompt is told instead. Known bias: the targeted golden stratum was sampled with
     keyword triggers that share vocabulary with these rules, so guard recall is reported on the
     uniform 130 only. The sampler's docstring had claimed the two were independent and was corrected.
+
+22. **The agent fails safe, and its confidence threshold is an evaluation choice, not a guess.**
+    One structured call returns intent, confidence, escalation and reply; the output is validated
+    against the taxonomy and reason list, and anything that can't be trusted goes to a human: no
+    JSON, a missing reply, or an intent outside the taxonomy. The last one was a real bug caught by
+    the tests: the first version recorded the bad intent but still auto-sent the reply. A bad
+    confidence value alone is recorded but doesn't escalate. The design's "low confidence ->
+    escalate" branch is an optional threshold, off by default, whose value will be chosen from
+    the risk-coverage curve rather than set by hand. The agent's prompt carries the customer's
+    message and earlier turns only, never BA's actual reply to the case, which the tests check.
