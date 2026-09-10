@@ -176,3 +176,19 @@ The final report keeps the 10–15 most consequential. Format: **decision**, the
     escalate" branch is an optional threshold, off by default, whose value will be chosen from
     the risk-coverage curve rather than set by hand. The agent's prompt carries the customer's
     message and earlier turns only, never BA's actual reply to the case, which the tests check.
+
+## Evaluation
+
+23. **An evaluation harness built to be hard to fool, including by its author.** Headline numbers
+    come from the 130 uniform cases only; the targeted 70 are scored separately, and a sensitivity
+    row drops the 57 practice-exposed cases without ever replacing the headline. Every rate carries
+    a 95% bootstrap interval, systems are compared by paired bootstrap on the same cases, and a
+    statistic undefined in most resamples (too few positive cases) keeps its estimate but gets no
+    interval rather than a falsely precise one. The evaluator refuses to report mock-model output
+    unless run as a smoke test; the runner refuses to run the agent without its model, rather than
+    write 200 fail-safe escalations that look like results; and an offline cache miss aborts a run.
+    Reply checks are also reported over auto-sent replies alone, because those are the ones that
+    reach customers. The end-to-end test makes opening the real labels file an error, proving the
+    harness doesn't read them before they are final. Writing the tests caught one real bug: the
+    flight-number normaliser only worked at the start of a string, so a reply repeating the
+    customer's own BA0462 as BA462 was flagged as invented.

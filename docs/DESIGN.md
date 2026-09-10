@@ -229,6 +229,9 @@ sendable-when-auto ≥ 85%. The conclusion may be per intent:
   `--live`; the `openai` package is never imported in local runs; `--offline` computes nothing;
   only localhost is contacted; tests never write to the cache.
 - **Provenance.** Every result records `llm.run_info()`: the mode, profile, and each role's model.
+- **Runs and scoring.** src/run_systems.py writes per-system predictions plus run_info; src/evaluate.py scores them
+  (uniform 130 headline, targeted 70 separately, a sensitivity row without the 57 practice-exposed cases),
+  refuses mock-model output unless --smoke, and gives no interval to a statistic undefined in most resamples.
 - Pinned model revisions (the embedding model's HuggingFace revision) and fixed seeds.
 - Dependencies: `requirements.txt` (core, offline), `requirements-local.txt` (local models),
   `requirements-live.txt` (optional paid provider).
