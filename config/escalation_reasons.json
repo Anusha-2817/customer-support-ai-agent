@@ -1,0 +1,21 @@
+{
+  "_doc": "Single source of truth for escalation reasons. Read by the labelling tool, the agent's output schema and the metrics, so label ids and model ids can never drift apart. Escalate = a human must review before anything is posted. Boundaries between reasons live in docs/labelling_guidelines.md.",
+  "reasons": [
+    {"id": "needs_booking_access", "name": "Needs booking access",
+     "definition": "Urgent action needed on this customer's own booking: travelling within about 24 hours, at the airport, or about to miss a flight or connection. A generic 'DM us' would leave them waiting in a queue. Non-urgent booking requests are auto, with a DM hand-off."},
+    {"id": "safety_medical", "name": "Safety / medical",
+     "definition": "Safety, security or medical issue: illness, injury, a condition affecting travel, special assistance, a stranded or vulnerable passenger."},
+    {"id": "legal_threat", "name": "Legal threat",
+     "definition": "Mentions lawyers, suing, small claims, the CAA or another regulator or ombudsman."},
+    {"id": "compensation_dispute", "name": "Compensation dispute",
+     "definition": "Claims or disputes money: EU261 compensation, refund amount or delay, expenses, a rejected claim."},
+    {"id": "disputed_policy_claim", "name": "Disputed policy / factual claim",
+     "definition": "Customer contests a policy or asserts what happened or what BA told them; an auto-reply would publicly confirm or deny contested facts."},
+    {"id": "repeated_contact", "name": "Repeated contact",
+     "definition": "Already raised with BA and still unresolved: 'third time', 'still no reply', 'been waiting weeks'."},
+    {"id": "reputational_risk", "name": "Reputational risk",
+     "definition": "High visibility or sensitive: media, abuse or a viral thread, discrimination, bereavement, or where a templated reply would look callous."},
+    {"id": "unclear_request", "name": "Unclear request",
+     "definition": "Can't tell what the customer wants (sarcasm, missing context, ambiguity); guessing in public is risky."}
+  ]
+}
