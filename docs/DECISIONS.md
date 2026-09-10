@@ -211,3 +211,26 @@ The final report keeps the 10–15 most consequential. Format: **decision**, the
     so to avoid tuning on the test set the new patterns are generic and tested on paraphrases,
     and any further prompt or rule tuning uses a 30-case development set drawn from the retrieval
     pool (3 per silver intent), whose runs retrieve from the pool minus those cases.
+
+25. **A blind 80-reply human-scoring set, mixed across systems so the judge is tested on a real
+    spread.** 80 replies to 80 different uniform cases: 15 agent replies that fail the reply
+    checks, 30 that pass, 30 from B1 (a real BA reply to a different, similar case) and 5 from
+    B0-auto-all (the generic holding reply). BA's actual reply to the case is never a candidate. An
+    agent-only set would test only whether the judge can rank similar replies; the mix gives it
+    clear good and bad ones too. The scoring tool shows only the earlier turns, the customer's
+    message and the reply, in a seeded random order. It never shows the system or the stratum, and
+    it imports the rubric wording from the judge, so both score against identical anchors. 30 items
+    are for development (any rubric change), and agreement is reported on the other 50. The item
+    file is frozen once scoring starts, and the tool supports re-scoring 25 items a day or more later
+    as a ceiling on human self-agreement.
+
+26. **Judge validation: a judge from another model family, a self-preference probe, and no
+    stand-in for the human.** The judge (llama3.2:3b) comes from a different model family from the
+    reply writer (qwen2.5:3b), and scores the same 80 items as the human. On the 50 test items, the
+    agreement script reports per-dimension quadratic kappa, kappa and the confusion matrix for
+    "sendable", the judge-minus-human bias per source system, and the correlation of reply length
+    with that bias (verbosity). Running qwen as a second judge on the same items measures
+    self-preference directly: how much more it favours A's replies (its own) over B1's than the
+    independent judge does, relative to the human. The agreement script refuses to run until the
+    human scores exist. Its tests use synthetic scores in a temporary directory, and they fail if
+    the real score files are opened.

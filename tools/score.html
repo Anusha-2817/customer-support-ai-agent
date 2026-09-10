@@ -1,0 +1,169 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Blind reply scoring</title>
+<style>
+  :root { --ink:#1f2328; --muted:#636c76; --line:#d0d7de; --bg:#f6f8fa; --accent:#1f4fb8; --warn:#b3261e; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  header { display:flex; gap:18px; align-items:center; padding:10px 22px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:2; }
+  header b { font-weight:600; }
+  .bar { flex:1; height:6px; background:#eaeef2; border-radius:3px; overflow:hidden; }
+  .bar div { height:100%; background:var(--accent); width:0; }
+  main { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:20px; padding:20px 22px; max-width:1360px; margin:auto; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:16px; }
+  h3 { margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:600; }
+  .turn { padding:8px 11px; border-radius:8px; margin:6px 0; font-size:14px; }
+  .turn.customer { background:#eef4ff; } .turn.brand { background:#f4f1ea; }
+  .turn small { display:block; color:var(--muted); font-size:11px; text-transform:uppercase; }
+  .msg { font-size:17px; line-height:1.55; padding:12px 14px; border-left:4px solid var(--accent); background:#f7f9ff; white-space:pre-wrap; }
+  .reply { font-size:17px; line-height:1.55; padding:12px 14px; border-left:4px solid #8a6d1f; background:#fbf7ec; white-space:pre-wrap; }
+  .dim { border:1px solid var(--line); border-radius:8px; padding:8px 10px; margin:8px 0; }
+  .dim.active { border-color:var(--accent); box-shadow:0 0 0 2px #c9d6f5; }
+  .dim b { font-weight:600; text-transform:capitalize; }
+  .row { display:flex; gap:8px; margin-top:6px; }
+  .opt { flex:1; text-align:left; padding:6px 8px; border:1px solid var(--line); border-radius:7px; background:#fff; cursor:pointer; font:inherit; font-size:13px; }
+  .opt:hover { border-color:#8c959f; }
+  .opt.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  kbd { font:11px ui-monospace,monospace; border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:0 5px; background:#f6f8fa; color:var(--ink); }
+  textarea { width:100%; min-height:48px; font:inherit; font-size:14px; padding:8px; border:1px solid var(--line); border-radius:7px; }
+  .actions { display:flex; gap:10px; align-items:center; }
+  button.primary { background:var(--accent); color:#fff; border:0; border-radius:7px; padding:9px 18px; font:inherit; font-weight:600; cursor:pointer; }
+  button.ghost { background:#fff; border:1px solid var(--line); border-radius:7px; padding:9px 14px; font:inherit; cursor:pointer; }
+  #err { color:var(--warn); font-size:13px; }
+  .muted { color:var(--muted); font-size:13px; }
+  .done { max-width:640px; margin:80px auto; text-align:center; }
+  @media (max-width: 900px) { main { grid-template-columns:1fr; padding:14px; } header { flex-wrap:wrap; } .bar { flex-basis:100%; order:3; } }
+</style>
+
+<header>
+  <b>Blind reply scoring</b>
+  <span id="count" class="muted"></span>
+  <div class="bar"><div id="fill"></div></div>
+  <span id="timer" class="muted"></span>
+</header>
+
+<main id="app">
+  <section>
+    <div class="card" id="ctxCard"><h3>Earlier in the thread</h3><div id="ctx"></div></div>
+    <div class="card"><h3>Customer message</h3><div class="msg" id="msg"></div></div>
+    <div class="card"><h3>Draft reply to score</h3><div class="reply" id="reply"></div><p class="muted" id="chars"></p></div>
+  </section>
+  <section>
+    <div class="card"><h3>Score each dimension</h3><div id="dims"></div></div>
+    <div class="card"><h3>Could British Airways post this reply as-is, without a human editing it?</h3>
+      <div class="row"><button class="opt" data-send="1"><kbd>Y</kbd> Yes, sendable</button><button class="opt" data-send="0"><kbd>N</kbd> No</button></div></div>
+    <div class="card"><h3>Note (optional)</h3><textarea id="note" placeholder="Anything odd about this reply (Ctrl+Enter saves)"></textarea></div>
+    <div class="actions">
+      <button class="ghost" id="prev">&larr; Prev <kbd>[</kbd></button>
+      <button class="primary" id="save">Save &amp; next <kbd style="background:#fff">Enter</kbd></button>
+      <button class="ghost" id="next">Skip <kbd>]</kbd></button>
+      <span id="err"></span>
+    </div>
+    <p class="muted"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> score the highlighted dimension and move to the next ·
+      <kbd>&uarr;</kbd> <kbd>&darr;</kbd> change dimension · <kbd>Y</kbd> / <kbd>N</kbd> sendable · <kbd>Enter</kbd> save.
+      You are not told which system wrote the reply.</p>
+  </section>
+</main>
+
+<script>
+let S = null, idx = 0, cur = null, active = 0, t0 = 0, saving = false;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const DIMS = () => Object.keys(S.rubric);
+
+function blank() { const o = { sendable:null, note:"" }; DIMS().forEach(d => o[d] = null); return o; }
+
+async function load() {
+  try {
+    const r = await fetch("/api/state");
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    S = await r.json();
+  } catch (e) {
+    $("app").innerHTML = `<div class="done card"><h2>Can't reach the scoring server</h2><p class="muted">From the project folder run <code>python tools/score_server.py</code>, then open <b>http://localhost:8766</b>.</p></div>`;
+    return;
+  }
+  const first = S.items.findIndex(it => !S.scores[it.item_id]);
+  idx = first === -1 ? S.items.length : first;
+  $("dims").innerHTML = DIMS().map((d, di) =>
+    `<div class="dim" data-row="${di}"><b>${esc(d.replace("_", " "))}</b><div class="row">` +
+    S.rubric[d].map((a, i) => `<button class="opt" data-dim="${d}" data-v="${i + 1}"><kbd>${i + 1}</kbd> ${esc(a)}</button>`).join("") +
+    `</div></div>`).join("");
+  document.querySelectorAll("[data-dim]").forEach(b => b.onclick = () => { active = DIMS().indexOf(b.dataset.dim); setScore(Number(b.dataset.v)); });
+  document.querySelectorAll("[data-row]").forEach(r => r.onclick = e => { if (!e.target.dataset.dim) { active = Number(r.dataset.row); paint(); } });
+  document.querySelectorAll("[data-send]").forEach(b => b.onclick = () => { cur.sendable = b.dataset.send === "1"; paint(); });
+  $("note").oninput = e => { cur.note = e.target.value; };
+  $("save").onclick = save; $("prev").onclick = () => go(idx - 1); $("next").onclick = () => go(idx + 1);
+  render();
+  setInterval(() => { if (cur) $("timer").textContent = Math.round((Date.now() - t0) / 1000) + "s on this reply"; }, 1000);
+}
+
+function render() {
+  const n = S.items.length, done = Object.keys(S.scores).length;
+  $("count").textContent = `${done} / ${n} scored · reply ${Math.min(idx + 1, n)} · saving to ${S.out}`;
+  $("fill").style.width = (100 * done / n) + "%";
+  if (idx >= n) { $("app").innerHTML = `<div class="done card"><h2>All ${n} replies scored</h2><p class="muted">Scores are in data/human_scores/${esc(S.out)}.</p></div>`; cur = null; return; }
+  const it = S.items[idx], prev = S.scores[it.item_id];
+  cur = blank();
+  if (prev) { DIMS().forEach(d => cur[d] = prev[d]); cur.sendable = prev.sendable; cur.note = prev.note || ""; }
+  active = Math.max(0, DIMS().findIndex(d => cur[d] === null));
+  t0 = Date.now();
+  $("ctxCard").hidden = !it.context.length;
+  $("ctx").innerHTML = it.context.map(t => `<div class="turn ${t.role}"><small>${t.role === "brand" ? "British Airways" : "Customer"}</small>${esc(t.text)}</div>`).join("");
+  $("msg").textContent = it.customer_msg;
+  $("reply").textContent = it.reply;
+  $("chars").textContent = `${it.reply.length} characters`;
+  $("note").value = cur.note;
+  $("err").textContent = "";
+  paint();
+}
+
+function setScore(v) {
+  cur[DIMS()[active]] = v;
+  const next = DIMS().findIndex((d, i) => i > active && cur[d] === null);
+  if (next !== -1) active = next;
+  $("err").textContent = ""; paint();
+}
+
+function paint() {
+  document.querySelectorAll("[data-row]").forEach(r => r.classList.toggle("active", Number(r.dataset.row) === active));
+  document.querySelectorAll("[data-dim]").forEach(b => b.classList.toggle("on", cur[b.dataset.dim] === Number(b.dataset.v)));
+  document.querySelectorAll("[data-send]").forEach(b => b.classList.toggle("on", cur.sendable !== null && (b.dataset.send === "1") === cur.sendable));
+}
+
+async function save() {
+  if (saving) return;
+  saving = true; $("err").textContent = "Saving...";
+  try {
+    const it = S.items[idx];
+    const rec = { item_id: it.item_id, ...cur, seconds: Math.round((Date.now() - t0) / 1000) };
+    let r, j;
+    try {
+      r = await fetch("/api/score", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(rec) });
+      j = await r.json();
+    } catch (e) { $("err").textContent = "NOT SAVED: can't reach the scoring server. Restart it; your choices are still here."; return; }
+    if (!r.ok) { $("err").textContent = j.error; return; }
+    S.scores[it.item_id] = rec;
+    const nextOpen = S.items.findIndex((x, i) => i > idx && !S.scores[x.item_id]);
+    const anyOpen = S.items.findIndex(x => !S.scores[x.item_id]);
+    go(nextOpen !== -1 ? nextOpen : anyOpen !== -1 ? anyOpen : S.items.length);
+  } finally { saving = false; }
+}
+
+function go(i) { if (i < 0 || i > S.items.length) return; idx = i; render(); }
+
+document.addEventListener("keydown", e => {
+  if (!cur) return;
+  if (e.target.tagName === "TEXTAREA") { if (e.key === "Enter" && e.ctrlKey) { e.preventDefault(); save(); } return; }
+  const k = e.key.toLowerCase();
+  if (["1", "2", "3"].includes(e.key)) return setScore(Number(e.key));
+  if (e.key === "ArrowDown") { e.preventDefault(); active = Math.min(DIMS().length - 1, active + 1); return paint(); }
+  if (e.key === "ArrowUp") { e.preventDefault(); active = Math.max(0, active - 1); return paint(); }
+  if (k === "y") { cur.sendable = true; return paint(); }
+  if (k === "n") { cur.sendable = false; return paint(); }
+  if (e.key === "Enter") { e.preventDefault(); return save(); }
+  if (e.key === "[") return go(idx - 1);
+  if (e.key === "]") return go(idx + 1);
+});
+
+load();
+</script>
