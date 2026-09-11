@@ -11,8 +11,11 @@ llama3.2:3b as the judge, via Ollama). Every model output is cached and committe
 results replay without any model at all. Paid APIs are blocked in code unless a run is started
 with `--live`.
 
+- **Report: [docs/REPORT.md](docs/REPORT.md)**
+- Decision log, the 15 main decisions: [docs/DECISIONS.md](docs/DECISIONS.md); the full log is
+  in [docs/DECISIONS_full.md](docs/DECISIONS_full.md)
+- Plain-language walkthrough of the implementation: [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md)
 - Design and methodology: [docs/DESIGN.md](docs/DESIGN.md)
-- Decision log: [docs/DECISIONS.md](docs/DECISIONS.md)
 - Labelling guidelines: [docs/labelling_guidelines.md](docs/labelling_guidelines.md)
 - Results: [artifacts/predictions/full-v1/results.md](artifacts/predictions/full-v1/results.md)
 - Golden set sampling and labelling: [docs/golden_set.md](docs/golden_set.md)

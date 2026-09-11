@@ -59,7 +59,9 @@ classifier could auto-send at most half of BA's Twitter traffic under this escal
   escalation and BA-reply acceptability. Cases in the blind reply-scoring set are left out, so no
   re-labelled case is one the labeller has just seen a drafted reply to. Run
   `tools/label_server.py --only-ids data/golden/relabel_ids.json --out data/golden/labels_round2.jsonl --seed 8`,
-  then `python src/relabel.py agree`. Not yet done.
+  then `python src/relabel.py agree`. **Not done.** It needs a gap of at least 24 hours after the
+  first labels, which conflicted with the submission deadline. The case list and the agreement
+  script are committed, so it can be run later.
 
 ## Limitations
 
