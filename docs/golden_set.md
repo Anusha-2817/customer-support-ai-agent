@@ -64,6 +64,6 @@ classifier could auto-send at most half of BA's Twitter traffic under this escal
 ## Limitations
 
 - One labeller. The escalation policy is the labeller's reading of what BA would want, not BA's.
-- 130 uniform cases give wide intervals: about ±0.09 on intent accuracy and ±0.12 on
+- 130 uniform cases give wide intervals: about ±0.08 on intent accuracy and ±0.12 on
   must-escalate recall.
 - Five intents have fewer than 10 uniform cases, so their per-intent F1 is anecdotal.

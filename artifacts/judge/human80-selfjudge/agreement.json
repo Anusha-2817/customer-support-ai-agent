@@ -1,0 +1,126 @@
+{
+  "human_scored": 80,
+  "judge": "ollama:qwen2.5:3b",
+  "test": {
+    "n": 50,
+    "dimensions": {
+      "relevance": {
+        "kappa_quadratic": 0.0634,
+        "exact_agreement": 0.18,
+        "judge_minus_human": -1.24
+      },
+      "groundedness": {
+        "kappa_quadratic": -0.1858,
+        "exact_agreement": 0.16,
+        "judge_minus_human": -0.84
+      },
+      "actionability": {
+        "kappa_quadratic": 0.1492,
+        "exact_agreement": 0.24,
+        "judge_minus_human": -1.04
+      },
+      "tone": {
+        "kappa_quadratic": 0.0761,
+        "exact_agreement": 0.24,
+        "judge_minus_human": -0.92
+      },
+      "public_safety": {
+        "kappa_quadratic": -0.055,
+        "exact_agreement": 0.72,
+        "judge_minus_human": -0.26
+      }
+    },
+    "sendable": {
+      "kappa": 0.0548,
+      "accuracy": 0.6,
+      "human_rate": 0.42,
+      "judge_rate": 0.02,
+      "confusion_human_rows_judge_cols": [
+        [
+          1,
+          20
+        ],
+        [
+          0,
+          29
+        ]
+      ]
+    },
+    "bias_by_source": {
+      "A": {
+        "n": 33,
+        "judge_minus_human": -0.8909
+      },
+      "B0-auto-all": {
+        "n": 1,
+        "judge_minus_human": -1.0
+      },
+      "B1": {
+        "n": 16,
+        "judge_minus_human": -0.7875
+      }
+    },
+    "verbosity_corr_length_vs_gap": 0.3722
+  },
+  "dev": {
+    "n": 30,
+    "dimensions": {
+      "relevance": {
+        "kappa_quadratic": 0.0669,
+        "exact_agreement": 0.2667,
+        "judge_minus_human": -1.2333
+      },
+      "groundedness": {
+        "kappa_quadratic": -0.0884,
+        "exact_agreement": 0.1667,
+        "judge_minus_human": -0.9333
+      },
+      "actionability": {
+        "kappa_quadratic": 0.1189,
+        "exact_agreement": 0.3,
+        "judge_minus_human": -0.8667
+      },
+      "tone": {
+        "kappa_quadratic": 0.0643,
+        "exact_agreement": 0.4,
+        "judge_minus_human": -0.3667
+      },
+      "public_safety": {
+        "kappa_quadratic": -0.0714,
+        "exact_agreement": 0.8,
+        "judge_minus_human": -0.1333
+      }
+    },
+    "sendable": {
+      "kappa": 0.0,
+      "accuracy": 0.5,
+      "human_rate": 0.5,
+      "judge_rate": 0.0,
+      "confusion_human_rows_judge_cols": [
+        [
+          0,
+          15
+        ],
+        [
+          0,
+          15
+        ]
+      ]
+    },
+    "bias_by_source": {
+      "A": {
+        "n": 12,
+        "judge_minus_human": -0.8833
+      },
+      "B0-auto-all": {
+        "n": 4,
+        "judge_minus_human": -0.95
+      },
+      "B1": {
+        "n": 14,
+        "judge_minus_human": -0.4857
+      }
+    },
+    "verbosity_corr_length_vs_gap": 0.0383
+  }
+}
