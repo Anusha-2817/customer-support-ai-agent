@@ -6,12 +6,12 @@ reproduce offline in about 3 minutes (see README). Decision log: docs/DECISIONS.
 ## Summary
 
 **Not yet, and the evidence says why.** On 130 uniformly sampled, hand-labelled BA tweets, the
-agent (qwen2.5:3b with retrieval and a deterministic guard, all running on a laptop CPU)
-auto-sends 75% of cases, but 39% of what it sends should have gone to a human. The bar I set before
-seeing any result was 5%. Holding that bar leaves 2–6% of traffic auto-handled. A TF-IDF baseline
-classifies intent better than the LLM (0.54 vs 0.40). The component that works is the
-deterministic guard: it doubles the share of must-escalate cases caught, from 0.22 to 0.42, and the
-reply gate raises that to 0.58. I rated half of A's drafts sendable as-is (the bar was 85%),
+agent A (qwen2.5:3b with retrieval and a deterministic guard, all running on a laptop CPU)
+auto-sends 75% of cases, but 39% of what it auto-sends should have gone to a human (unsafe
+auto-send). The bar I set before seeing any result was 5%. Holding that bar leaves 2–6% of traffic
+auto-sent. A TF-IDF baseline, B1, has higher intent accuracy than A (0.54 vs 0.40). The component
+that works is the deterministic guard: it doubles must-escalate recall, from 0.22 to 0.42, and
+A+gate raises it to 0.58. I rated half of A's drafts sendable as-is (the bar was 85%),
 and neither local LLM judge agrees with my scores better than chance, so no judge score counts as
 evidence here. The honest deployment today is **draft-for-review**: every reply
 goes to a human, pre-drafted, with a stated reason when the system thinks it is risky.
@@ -64,8 +64,10 @@ unsafe auto-send ≤ 5%, and ≥ 85% of auto-sent replies sendable as-is.
 - **Golden set, 200 blind hand labels** from the evaluation period: 130 uniform (every headline
   number) and 70 targeted at rare intents and likely escalations, reported separately. The
   labelling tool never shows model output, and BA's reply is revealed only after intent and
-  escalation are set. Half the uniform sample must be escalated (65/130). *Disclosure:* 57 uniform
-  cases had been seen in a practice round, and their labels were reviewed from practice pre-sets.
+  escalation are set. Under the pre-registered escalation policy, 65/130 uniform cases (50%) were
+  labelled must-escalate; this is a policy-defined evaluation composition, not an estimate of BA's
+  real-world escalation rate. *Disclosure:* 57 uniform cases had been seen in a practice round, and
+  their labels were reviewed from practice pre-sets.
   A sensitivity row drops them.
 - **Metrics.** Intent accuracy and macro-F1. Must-escalate recall. *Unsafe auto-send*, the share of
   auto-sent cases that needed a human. Coverage. Risk–coverage curves. All with 95% bootstrap
@@ -73,11 +75,11 @@ unsafe auto-send ≤ 5%, and ≥ 85% of auto-sent replies sendable as-is.
 - **Deterministic reply checks.** Length; specifics (fees, flight numbers, times, links) absent
   from the conversation; promises, commitments and offers; public requests for personal data;
   claims to have checked a booking.
-- **Leakage control.** Predictions are generated with opening the labels file made an error (0
-  attempts in every run). Prompt and rule changes were made on a separate 30-case development set
-  from the pool, never on golden cases.
+- **Leakage control.** Opening the labels file during prediction is treated as an error; every
+  prediction run made 0 attempts to access it. Prompt and rule changes were made on a separate
+  30-case development set from the pool, never on golden cases.
 - **Judge validation.** An LLM judge scores relevance, groundedness, actionability, tone and public
-  safety (anchored 1–3) and whether the reply is sendable. It is checked against my blind scores on
+  safety (anchored 1–3) and whether the reply is sendable as-is. It is checked against my blind scores on
   80 replies mixed across systems (30 for development, 50 reported).
 
 ## 4. Results
@@ -96,12 +98,12 @@ unsafe auto-send ≤ 5%, and ≥ 85% of auto-sent replies sendable as-is.
 
 **Paired differences** (first minus second, same 130 cases):
 - **A − B1.** Intent accuracy −0.14 [−0.25, −0.03]; unsafe auto-send −0.05 [−0.09, −0.02];
-  coverage −0.08. The agent is slightly safer and classifies worse.
+  coverage −0.08. A has slightly lower unsafe auto-send and lower intent accuracy.
 - **A − A without guard.** Unsafe auto-send −0.06 [−0.10, −0.01]; coverage −0.13. The guard earns
   its keep.
-- **A − A without retrieval.** Intent −0.07 [−0.15, +0.01], not significant; unsafe auto-send
-  −0.04 [−0.08, −0.00]. Retrieval does not make the agent more accurate. It makes it more cautious
-  and teaches BA's style: without retrieval, 18% of auto-sent drafts ask for personal data in
+- **A − A without retrieval.** Intent accuracy −0.07 [−0.15, +0.01], not significant; unsafe
+  auto-send −0.04 [−0.08, −0.00]. Retrieval does not improve intent accuracy. It makes A more
+  cautious and teaches BA's style: without retrieval, 18% of auto-sent drafts ask for personal data in
   public, against 10% with it. But retrieval also imports specifics from other conversations
   (invented details in 6% of drafts vs 3%).
 - **A+gate − A.** Unsafe auto-send −0.04 [−0.09, +0.01] for 16 points of coverage.
@@ -112,15 +114,16 @@ similarity), the best operating point under 5% unsafe auto-send is **6% coverage
 similarity ≥ 0.79) and 4–5% for A+gate. That is the whole auto-send opportunity at today's quality.
 
 **Reply checks on auto-sent drafts.** A 78% pass [70, 86]; B1 87% [80, 93]; A+gate 100% by
-construction, so only judge or human scores measure its replies. B1 sends real BA replies, yet 10%
+construction. A+gate is a final deterministic veto: any draft that fails the deterministic reply
+checks is escalated rather than auto-sent, so only the human scores (§5) measure its replies. B1 sends real BA replies, yet 10%
 of them carry specifics that don't belong to the conversation: a past reply's flight number or fee
 is wrong in a new context. Mimicking BA is not the same as being safe.
 
 **Other subsets.**
-- **Targeted 70** (enriched for escalations): A's recall is 0.84 [0.72, 0.94], unsafe auto-send
+- **Targeted 70** (enriched for escalations): A's must-escalate recall is 0.84 [0.72, 0.94], unsafe auto-send
   0.27. This looks much better, but is inflated: the targeting keywords share vocabulary with the
   guard (§7).
-- **73 uniform cases never seen in practice**: same ordering as the headline (A intent 0.44 vs B1
+- **73 uniform cases never seen in practice**: same ordering as the headline (A intent accuracy 0.44 vs B1
   0.58; A unsafe auto-send 0.37).
 - **Practice vs final labels** on the 57 exposed cases: 8 changed a field on review; escalation
   agreement 0.96 (κ 0.92).
@@ -142,26 +145,28 @@ which system wrote a reply):
 
 - **About half of A's drafts are sendable as-is. The bar was 85%.**
 - **A's drafts beat recycled BA replies** on relevance (2.9 vs 2.2) and actionability (2.7 vs
-  1.7). Sendable: 0.50 vs 0.37, a difference of +0.13 [−0.13, +0.37], which is not significant
+  1.7). Sendable as-is: 0.50 vs 0.37, a difference of +0.13 [−0.13, +0.37], which is not significant
   at n = 30. The LLM writes to the actual question; a past reply answers a different one.
-- **The deterministic checks barely predict my judgement.** Drafts that fail them are sendable 47%
-  of the time, against 50% for drafts that pass, and score lower only on groundedness. The checks
+- **The deterministic checks barely predict my judgement.** Drafts that fail them are sendable as-is
+  47% of the time, against 50% for drafts that pass, and score lower only on groundedness. The checks
   catch real, specific defects, like an invented fee. But most unsendable drafts fail for reasons
   the checks don't look for, so A+gate's "100% pass" says little about quality.
-- **The generic holding reply is "sendable" 3 times in 5, but it is the least actionable.**
-  Sendable is a floor, not a goal.
-- The sample is stratified: drafts that fail a check make up a third of the A items, more than
-  their real share (about a fifth). So A is reported per stratum, not pooled.
+- **The generic holding reply is sendable as-is 3 times in 5, but it is the least actionable.**
+  Sendable as-is is a floor, not a goal.
+- **The human-scored sample was stratified** to include drafts that passed and failed the
+  deterministic checks, so these sendable-as-is rates are not intended as population estimates.
+  Drafts that fail a check make up a third of the A items, more than their real share (about a
+  fifth), so A is reported per stratum, not pooled.
 
 **The LLM judges do not agree with the human.** Results on the 50 held-out test items:
 
-| Judge | Quadratic κ: relevance / grounded / actionable / tone / safety | Sendable κ | Judge's sendable rate (human's) |
+| Judge | Quadratic κ: relevance / grounded / actionable / tone / public safety | Sendable as-is κ | Judge's sendable as-is rate (human's) |
 |---|---|---|---|
 | llama3.2:3b (independent) | 0.05 / −0.04 / 0.06 / −0.03 / −0.06 | 0.04 | 0.08 (0.41) |
 | qwen2.5:3b (wrote A's replies) | 0.06 / −0.19 / 0.15 / 0.08 / −0.06 | 0.05 | 0.02 (0.42) |
 
 - **Both judges agree with me at chance level on every dimension.** Both are harsher than I am
-  (qwen by about a point on a 3-point scale), and they call almost nothing sendable.
+  (qwen by about a point on a 3-point scale), and they call almost nothing sendable as-is.
 - **Self-preference probe.** Relative to my scores, qwen favours A's replies over B1's by 0.26
   points more than llama does. That is the direction the literature predicts (Panickssery et al.,
   2024), but it means little when agreement is at chance.
@@ -189,8 +194,8 @@ Counts are over the 130 headline cases. Every example is a real case.
    instructions." *Case 78379:* a customer refusing a £70 fee got "As a premium airline, we strive
    for excellence."
 2. **Its confidence carries no information.** Confidence is 1.0 on 128 cases, of which only 50
-   were classified correctly. With no usable risk signal, coverage can't be traded for safety,
-   which is why the 5% operating point sits at 6% coverage.
+   were classified correctly. With no usable risk signal, coverage can't be traded for lower
+   unsafe auto-send, which is why the 5% operating point sits at 6% coverage.
 3. **It collapses intents into "service complaint".** It predicts service complaint 46 times; the
    gold labels contain 12. Of 24 non-actionable tweets (praise, check-ins), it recognises 1
    (F1 0.08, against 0.71 for B1). *Case 2731023:* "Fantastic crew — helpful, always smiling" was
@@ -208,9 +213,9 @@ Counts are over the 130 headline cases. Every example is a real case.
 
 ## 7. What is misleading about my headline number
 
-1. **The escalation policy is mine, and every safety number depends on it.** Half the uniform
-   sample "must" be escalated because I decided, for example, that a disputed fee needs a human.
-   BA might auto-reply to many of those. Under a looser policy, unsafe auto-send would fall without
+1. **The escalation policy is mine, and must-escalate recall and unsafe auto-send depend on it.**
+   Half the uniform sample "must" be escalated because I decided, for example, that a disputed fee
+   needs a human. BA might auto-send replies to many of those. Under a looser policy, unsafe auto-send would fall without
    the system changing at all.
 2. **One labeller, who also designed the taxonomy.** The intents fit my own mental model, which
    flatters intent accuracy for everyone, including B1's silver labels. Neither my agreement with
@@ -218,12 +223,12 @@ Counts are over the 130 headline cases. Every example is a real case.
    gap that the deadline didn't allow.
 3. **57 of the 130 headline cases were not fully blind.** I saw them, with BA's replies, in a
    practice round. The sensitivity row without them shows the same ordering, but on 73 cases.
-4. **Targeted recall (0.84) looks like success but isn't.** The targeting keywords share
+4. **Targeted must-escalate recall (0.84) looks like success but isn't.** The targeting keywords share
    vocabulary with the guard, so the guard is tested on cases selected for words it knows.
 5. **"100% of A+gate's auto-sent replies pass the checks" is true by construction.** The gate is
-   those checks, and my own scores show drafts that fail them are about as sendable as drafts
-   that pass (47% vs 50%).
-6. **n = 130.** Intent accuracy is ±0.08 and recall ±0.12, and five intents have fewer than 10
+   those checks, and my own scores show drafts that fail them are sendable as-is about as often
+   as drafts that pass (47% vs 50%).
+6. **n = 130.** Intent accuracy is ±0.08 and must-escalate recall ±0.12, and five intents have fewer than 10
    cases.
 7. **It is a 3B model on a laptop, on 16 days of late-2017 traffic.** These numbers describe this
    configuration, not what an airline would deploy, and BA's policies have changed since.
@@ -235,7 +240,7 @@ Counts are over the 130 headline cases. Every example is a real case.
    it on the pool development set, then score it once on the golden set.
 2. **A risk signal that works.** Self-consistency or a small classifier trained on the pool. The
    aim is a curve with real coverage under 5%, then a per-intent policy (auto-send only where an
-   intent's own unsafe rate meets the bar with enough cases).
+   intent's own unsafe auto-send meets the bar with enough cases).
 3. **Checks for placeholders, invented names and customer voice** (failure 5), tested on
    paraphrases, not on the golden cases where they were found.
 4. **The same harness with a stronger generator and judge** (GPU, or the paid profile, which is

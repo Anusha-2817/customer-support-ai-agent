@@ -247,8 +247,12 @@ sendable-when-auto ≥ 85%. The conclusion may be per intent:
   `requirements-live.txt` (optional paid provider).
 - Secrets: the OpenAI key, if any, lives in `.env` (git-ignored), is read only in `--live` mode,
   and is never printed.
-- The repo ships the processed BA subset, not the 516 MB raw file; `prepare.py` regenerates it.
-  **TODO: confirm the dataset license before committing derived data.**
+- The source Kaggle dataset, Customer Support on Twitter, is listed as CC BY-NC-SA 4.0
+  (Attribution-NonCommercial-ShareAlike). The Kaggle page also states that commercial applications
+  and use of the full dataset require contacting Thought Vector. This repo therefore ships only the
+  processed British Airways subset needed to reproduce the assignment, rather than the 516 MB raw
+  dataset (`prepare.py` regenerates the subset from it). Source:
+  https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter
 - Windows: force UTF-8 I/O (emoji in tweets crash the default cp1252 console).
 
 ---
